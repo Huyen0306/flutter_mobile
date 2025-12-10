@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
+const Color kPrimaryColor = Color(0xFFec003f);
+
 class TimerCounterScreen extends StatefulWidget {
   const TimerCounterScreen({super.key});
 
@@ -25,9 +27,14 @@ class _TimerCounterScreenState extends State<TimerCounterScreen> {
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
         ),
         leading: IconButton(
-          icon: const Icon(Iconsax.arrow_left_2, color: Colors.blue, size: 22),
+          icon: const Icon(
+            Iconsax.arrow_left_2,
+            color: kPrimaryColor,
+            size: 22,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
+        centerTitle: true,
       ),
       body: Column(
         children: [
@@ -49,7 +56,9 @@ class _TimerCounterScreenState extends State<TimerCounterScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       decoration: BoxDecoration(
-                        color: _selectedIndex == 0 ? Colors.white : Colors.transparent,
+                        color: _selectedIndex == 0
+                            ? Colors.white
+                            : Colors.transparent,
                         borderRadius: BorderRadius.circular(25),
                         boxShadow: _selectedIndex == 0
                             ? [
@@ -57,7 +66,7 @@ class _TimerCounterScreenState extends State<TimerCounterScreen> {
                                   color: Colors.black.withOpacity(0.1),
                                   blurRadius: 4,
                                   offset: const Offset(0, 2),
-                                )
+                                ),
                               ]
                             : [],
                       ),
@@ -66,7 +75,9 @@ class _TimerCounterScreenState extends State<TimerCounterScreen> {
                           'Timer',
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            color: _selectedIndex == 0 ? Colors.blue : Colors.black,
+                            color: _selectedIndex == 0
+                                ? kPrimaryColor
+                                : Colors.black,
                           ),
                         ),
                       ),
@@ -79,7 +90,9 @@ class _TimerCounterScreenState extends State<TimerCounterScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       decoration: BoxDecoration(
-                        color: _selectedIndex == 1 ? Colors.white : Colors.transparent,
+                        color: _selectedIndex == 1
+                            ? Colors.white
+                            : Colors.transparent,
                         borderRadius: BorderRadius.circular(25),
                         boxShadow: _selectedIndex == 1
                             ? [
@@ -87,7 +100,7 @@ class _TimerCounterScreenState extends State<TimerCounterScreen> {
                                   color: Colors.black.withOpacity(0.1),
                                   blurRadius: 4,
                                   offset: const Offset(0, 2),
-                                )
+                                ),
                               ]
                             : [],
                       ),
@@ -96,7 +109,43 @@ class _TimerCounterScreenState extends State<TimerCounterScreen> {
                           'Counter',
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            color: _selectedIndex == 1 ? Colors.blue : Colors.black,
+                            color: _selectedIndex == 1
+                                ? kPrimaryColor
+                                : Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => setState(() => _selectedIndex = 2),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      decoration: BoxDecoration(
+                        color: _selectedIndex == 2
+                            ? Colors.white
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(25),
+                        boxShadow: _selectedIndex == 2
+                            ? [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ]
+                            : [],
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Màu sắc',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: _selectedIndex == 2
+                                ? kPrimaryColor
+                                : Colors.black,
                           ),
                         ),
                       ),
@@ -110,7 +159,9 @@ class _TimerCounterScreenState extends State<TimerCounterScreen> {
           Expanded(
             child: _selectedIndex == 0
                 ? const TimerWidget()
-                : const CounterWidget(),
+                : _selectedIndex == 1
+                ? const CounterWidget()
+                : const ColorChangerWidget(),
           ),
         ],
       ),
@@ -192,25 +243,30 @@ class _TimerWidgetState extends State<TimerWidget> {
             style: TextStyle(fontSize: 16, color: Colors.black54),
           ),
           const SizedBox(height: 10),
-          TextField(
-            controller: _controller,
-            keyboardType: TextInputType.number,
-            textAlign: TextAlign.center,
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.grey[100],
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
-              ),
-              hintText: 'Nhập số giây',
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              borderRadius: BorderRadius.circular(12),
             ),
-            onChanged: (value) {
-              setState(() {
-                _seconds = int.tryParse(value) ?? 0;
-                _initialSeconds = _seconds;
-              });
-            },
+            child: TextField(
+              controller: _controller,
+              keyboardType: TextInputType.number,
+              textAlign: TextAlign.center,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
+                hintText: 'Nhập số giây',
+              ),
+              onChanged: (value) {
+                setState(() {
+                  _seconds = int.tryParse(value) ?? 0;
+                  _initialSeconds = _seconds;
+                });
+              },
+            ),
           ),
           const SizedBox(height: 40),
           Text(
@@ -218,25 +274,29 @@ class _TimerWidgetState extends State<TimerWidget> {
             style: const TextStyle(
               fontSize: 60,
               fontWeight: FontWeight.bold,
-              color: Colors.blue,
+              color: kPrimaryColor,
             ),
           ),
           const SizedBox(height: 60),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildButton(
-                label: 'Bắt đầu',
-                icon: Icons.play_arrow,
-                onTap: _startTimer,
-                isActive: !_isRunning && _seconds > 0,
+              Expanded(
+                child: _buildButton(
+                  label: 'Bắt đầu',
+                  icon: Iconsax.play,
+                  onTap: _startTimer,
+                  isActive: !_isRunning && _seconds > 0,
+                ),
               ),
               const SizedBox(width: 20),
-              _buildButton(
-                label: 'Đặt lại',
-                icon: Icons.refresh,
-                onTap: _resetTimer,
-                isActive: true,
+              Expanded(
+                child: _buildButton(
+                  label: 'Đặt lại',
+                  icon: Iconsax.refresh,
+                  onTap: _resetTimer,
+                  isActive: true,
+                ),
               ),
             ],
           ),
@@ -253,14 +313,15 @@ class _TimerWidgetState extends State<TimerWidget> {
   }) {
     return InkWell(
       onTap: isActive ? onTap : null,
-      borderRadius: BorderRadius.circular(30),
+      borderRadius: BorderRadius.circular(12),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         decoration: BoxDecoration(
-          color: isActive ? Colors.blue : Colors.grey[300],
-          borderRadius: BorderRadius.circular(30),
+          color: isActive ? kPrimaryColor : Colors.grey[300],
+          borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, color: Colors.white, size: 20),
             const SizedBox(width: 8),
@@ -324,7 +385,7 @@ class _CounterWidgetState extends State<CounterWidget> {
           style: const TextStyle(
             fontSize: 80,
             fontWeight: FontWeight.bold,
-            color: Colors.blue,
+            color: kPrimaryColor,
           ),
         ),
         const SizedBox(height: 80),
@@ -332,9 +393,9 @@ class _CounterWidgetState extends State<CounterWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _buildCircleButton(
-              icon: Icons.remove,
+              icon: Iconsax.minus,
               onTap: _decrement,
-              color: Colors.blue,
+              color: kPrimaryColor,
             ),
             const SizedBox(width: 30),
             _buildCircleButton(
@@ -344,9 +405,9 @@ class _CounterWidgetState extends State<CounterWidget> {
             ),
             const SizedBox(width: 30),
             _buildCircleButton(
-              icon: Icons.add,
+              icon: Iconsax.add,
               onTap: _increment,
-              color: Colors.blue,
+              color: kPrimaryColor,
             ),
           ],
         ),
@@ -361,7 +422,7 @@ class _CounterWidgetState extends State<CounterWidget> {
             SizedBox(width: 30),
             SizedBox(width: 60, child: Center(child: Text("Tăng"))),
           ],
-        )
+        ),
       ],
     );
   }
@@ -388,10 +449,122 @@ class _CounterWidgetState extends State<CounterWidget> {
             ),
           ],
         ),
-        child: Icon(
-          icon,
-          color: Colors.white,
-          size: 30,
+        child: Icon(icon, color: Colors.white, size: 30),
+      ),
+    );
+  }
+}
+
+// -----------------------------------------------------------------------------
+// COLOR CHANGER WIDGET
+// -----------------------------------------------------------------------------
+class ColorChangerWidget extends StatefulWidget {
+  const ColorChangerWidget({super.key});
+
+  @override
+  State<ColorChangerWidget> createState() => _ColorChangerWidgetState();
+}
+
+class _ColorChangerWidgetState extends State<ColorChangerWidget> {
+  Color _backgroundColor = Colors.pinkAccent;
+  String _colorName = 'HỒNG';
+
+  final List<Map<String, dynamic>> _colorOptions = [
+    {'label': 'Hồng', 'name': 'HỒNG', 'color': Colors.pinkAccent},
+    {'label': 'Tím', 'name': 'TÍM', 'color': Colors.deepPurpleAccent},
+    {'label': 'Vàng', 'name': 'VÀNG', 'color': Colors.yellow},
+    {'label': 'Xanh lá', 'name': 'XANH LÁ', 'color': Colors.green},
+    {'label': 'Xanh dương', 'name': 'XANH DƯƠNG', 'color': Colors.blue},
+  ];
+
+  void _changeColor(Color color, String name) {
+    setState(() {
+      _backgroundColor = color;
+      _colorName = name;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 500),
+      width: double.infinity,
+      color: _backgroundColor,
+      child: Center(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 20,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Màu hiện tại',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                _colorName,
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: _backgroundColor,
+                ),
+              ),
+              const SizedBox(height: 32),
+              const Text(
+                "Chọn màu yêu thích",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 24),
+              Wrap(
+                spacing: 16,
+                runSpacing: 16,
+                alignment: WrapAlignment.center,
+                children: _colorOptions.map((option) {
+                  final color = option['color'] as Color;
+                  final name = option['name'] as String;
+                  final isSelected = _colorName == name;
+
+                  return GestureDetector(
+                    onTap: () => _changeColor(color, name),
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: color,
+                        shape: BoxShape.circle,
+                        border: isSelected
+                            ? Border.all(color: Colors.black, width: 3)
+                            : Border.all(color: Colors.black12, width: 1),
+                      ),
+                      child: isSelected
+                          ? const Icon(Icons.check, color: Colors.white)
+                          : null,
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
         ),
       ),
     );

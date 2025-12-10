@@ -11,35 +11,35 @@ class HomeClassroomScreen extends StatelessWidget {
         'title': 'XML và ứng dụng - Nhóm 1',
         'code': '2025-2026.1.TIN4583.001',
         'students': '58 học viên',
-        'imageUrl': 'assets/images/background_classroom.png',
+        'imageUrl': 'assets/images/background_classroom_1.png',
         'gradientColors': [Color(0xFF333333), Color(0xFF454545)],
       },
       {
-        'title': 'Lập trình ứng dụng cho các t...',
+        'title': 'Lập trình Mobile Đa Nền Tảng',
         'code': '2025-2026.1.TIN4403.006',
         'students': '55 học viên',
-        'imageUrl': 'assets/images/background_classroom.png',
+        'imageUrl': 'assets/images/background_classroom_2.png',
         'gradientColors': [Color(0xFF37474F), Color(0xFF455A64)],
       },
       {
-        'title': 'Lập trình ứng dụng cho các t...',
+        'title': 'Phát triển Ứng dụng Web',
         'code': '2025-2026.1.TIN4403.005',
         'students': '52 học viên',
-        'imageUrl': 'assets/images/background_classroom.png',
+        'imageUrl': 'assets/images/background_classroom_3.png',
         'gradientColors': [Color(0xFF263238), Color(0xFF37474F)],
       },
       {
-        'title': 'Lập trình ứng dụng cho các t...',
+        'title': 'Nhập môn Trí tuệ Nhân tạo',
         'code': '2025-2026.1.TIN4403.004',
         'students': '50 học viên',
-        'imageUrl': 'assets/images/background_classroom.png',
+        'imageUrl': 'assets/images/background_classroom_4.png',
         'gradientColors': [Color(0xFF1565C0), Color(0xFF1976D2)],
       },
       {
-        'title': 'Lập trình ứng dụng cho các t...',
+        'title': 'Cấu trúc Dữ liệu và Giải thuật',
         'code': '2025-2026.1.TIN4403.003',
         'students': '52 học viên',
-        'imageUrl': 'assets/images/background_classroom.png',
+        'imageUrl': 'assets/images/background_classroom_1.png',
         'gradientColors': [Color(0xFF212121), Color(0xFF424242)],
       },
     ];
@@ -57,7 +57,7 @@ class HomeClassroomScreen extends StatelessWidget {
           icon: const Icon(Iconsax.arrow_left_2, color: Colors.blue, size: 22),
           onPressed: () => Navigator.pop(context),
         ),
-       
+        centerTitle: true,
       ),
       body: ListView.separated(
         padding: const EdgeInsets.all(10),
@@ -74,7 +74,6 @@ class HomeClassroomScreen extends StatelessWidget {
           );
         },
       ),
-      
     );
   }
 }
@@ -101,31 +100,37 @@ class CourseCard extends StatelessWidget {
       height: 140,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: gradientColors,
-        ),
+        color: Colors.grey[300],
       ),
       clipBehavior: Clip.hardEdge,
       child: Stack(
         children: [
-          Positioned(
-            right: 0,
-            top: 0,
-            bottom: 0,
-            width: 150,
-            child: Opacity(
-              opacity: 0.8,
-              child: Image.asset(
-                imageUrl,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(color: Colors.transparent);
-                },
+          // 1. Full Background Image
+          Positioned.fill(
+            child: Image.asset(
+              imageUrl,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Container(color: Colors.grey);
+              },
+            ),
+          ),
+          // 2. Gradient Overlay (Semi-transparent)
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  // Use opacity to let the image show through as a background
+                  colors: gradientColors
+                      .map((c) => c.withOpacity(0.70))
+                      .toList(),
+                ),
               ),
             ),
           ),
+          // 3. Content
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -152,18 +157,12 @@ class CourseCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   code,
-                  style: const TextStyle(
-                    color: Colors.white70,
-                    fontSize: 14,
-                  ),
+                  style: const TextStyle(color: Colors.white70, fontSize: 14),
                 ),
                 const Spacer(),
                 Text(
                   studentCount,
-                  style: const TextStyle(
-                    color: Colors.white70,
-                    fontSize: 12,
-                  ),
+                  style: const TextStyle(color: Colors.white70, fontSize: 12),
                 ),
               ],
             ),

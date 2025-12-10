@@ -21,7 +21,10 @@ class WelcomeCharlieScreen extends StatelessWidget {
             onPressed: () {},
           ),
           IconButton(
-            icon: const Icon(Iconsax.element_plus, color: Colors.black), // Giống hình mảnh ghép/menu
+            icon: const Icon(
+              Iconsax.element_plus,
+              color: Colors.black,
+            ), // Giống hình mảnh ghép/menu
             onPressed: () {},
           ),
           const SizedBox(width: 12),
@@ -45,7 +48,7 @@ class WelcomeCharlieScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 30),
-            
+
             // Search Bar
             Container(
               decoration: BoxDecoration(
@@ -57,15 +60,15 @@ class WelcomeCharlieScreen extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: 'Search',
                   hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
-                  prefixIcon: Icon(Iconsax.search_normal, color: Colors.blue),
+                  prefixIcon: Icon(Iconsax.search_normal, color: Colors.grey),
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(vertical: 16),
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 40),
-            
+
             // Saved Places Header
             const Text(
               'Saved Places',
@@ -75,29 +78,22 @@ class WelcomeCharlieScreen extends StatelessWidget {
                 color: Color(0xFF2D3436),
               ),
             ),
-            
+
             const SizedBox(height: 20),
-            
+
             // Grid of Places
             Expanded(
               child: GridView.count(
                 crossAxisCount: 2,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
-                childAspectRatio: 1.4, // Điều chỉnh tỷ lệ để phù hợp với hình ảnh hơn
+                childAspectRatio:
+                    1.4, // Điều chỉnh tỷ lệ để phù hợp với hình ảnh hơn
                 children: [
-                   _buildPlaceCard(
-                    imagePath: 'assets/images/bai2_1.png',
-                  ),
-                   _buildPlaceCard(
-                    imagePath: 'assets/images/bai2_2.png',
-                  ),
-                  _buildPlaceCard(
-                    imagePath: 'assets/images/bai2_3.png',
-                  ),
-                  _buildPlaceCard(
-                    imagePath: 'assets/images/bai2_4.png',
-                  ),
+                  _buildPlaceCard(imagePath: 'assets/images/noel_1.png'),
+                  _buildPlaceCard(imagePath: 'assets/images/noel_2.png'),
+                  _buildPlaceCard(imagePath: 'assets/images/noel_3.png'),
+                  _buildPlaceCard(imagePath: 'assets/images/noel_4.png'),
                 ],
               ),
             ),
@@ -111,10 +107,7 @@ class WelcomeCharlieScreen extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        image: DecorationImage(
-          image: AssetImage(imagePath),
-          fit: BoxFit.cover,
-        ),
+        image: DecorationImage(image: AssetImage(imagePath), fit: BoxFit.cover),
       ),
     );
   }

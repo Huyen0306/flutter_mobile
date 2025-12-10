@@ -6,7 +6,7 @@ import 'bai3/timer_counter_screen.dart';
 import 'bai4/login_register_screen.dart';
 import 'bai5/bmi_feedback_screen.dart';
 import 'bai6/ecommerce_screen.dart';
-import 'bai7/ecommerce_detail_screen.dart';
+import 'bai7/new_api_screen.dart';
 import 'bai8/login_profile_screen.dart';
 
 class MainScreen extends StatelessWidget {
@@ -23,10 +23,11 @@ class MainScreen extends StatelessWidget {
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
-        title: Text(
+        title: const Text(
           'Danh sách bài tập',
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
         ),
+        centerTitle: true,
       ),
       drawer: Drawer(
         backgroundColor: Colors.white,
@@ -121,15 +122,14 @@ class MainScreen extends StatelessWidget {
               ),
               SizedBox(height: 12),
               _buildExerciseCard(
-                icon: Iconsax.box,
-                title:
-                    'Bài tập 7: Thương mại điện tử & Chi tiết sản phẩm - WebAPI',
+                icon: Iconsax.global,
+                title: 'Bài tập 7: Tin Tức - WebAPI',
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const EcommerceDetailScreen(),
+                      builder: (context) => const NewApiScreen(),
                     ),
                   );
                 },
@@ -239,14 +239,13 @@ class MainScreen extends StatelessWidget {
               ),
               SizedBox(height: 12),
               _buildExerciseCard(
-                icon: Iconsax.box,
-                title:
-                    'Bài tập 7: Thương mại điện tử & Chi tiết sản phẩm - WebAPI',
+                icon: Iconsax.global,
+                title: 'Bài tập 7: Tin Tức - WebAPI',
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const EcommerceDetailScreen(),
+                      builder: (context) => const NewApiScreen(),
                     ),
                   );
                 },
@@ -279,37 +278,37 @@ class MainScreen extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: Colors.blue.withOpacity(0.5),
+            color: const Color(0xFFec003f).withOpacity(0.5),
             width: 0.5,
           ),
         ),
         child: Row(
           children: [
             Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.1),
+                color: const Color(0xFFec003f).withOpacity(0.1),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(icon, color: Colors.blue, size: 24),
+              child: Icon(icon, color: const Color(0xFFec003f), size: 24),
             ),
-            SizedBox(width: 14),
+            const SizedBox(width: 14),
             Expanded(
               child: Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                   color: Colors.black87,
                 ),
               ),
             ),
-            Icon(Iconsax.arrow_right_3, color: Colors.grey, size: 20),
+            const Icon(Iconsax.arrow_right_3, color: Colors.grey, size: 20),
           ],
         ),
       ),
