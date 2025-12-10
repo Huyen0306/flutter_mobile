@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 class LoginRegisterScreen extends StatelessWidget {
   const LoginRegisterScreen({super.key});
@@ -7,7 +8,15 @@ class LoginRegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bài tập 4: Form Login và Register'),
+        backgroundColor: Colors.white,
+        title: const Text(
+          'Bài tập 4: Form Login và Register',
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+        ),
+        leading: IconButton(
+          icon: const Icon(Iconsax.arrow_left_2, color: Colors.blue, size: 22),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: const Center(
         child: Text('Nội dung Bài tập 4'),
