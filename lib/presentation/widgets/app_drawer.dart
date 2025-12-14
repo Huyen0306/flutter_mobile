@@ -100,7 +100,7 @@ class AppDrawer extends StatelessWidget {
             _buildExerciseCard(
               context,
               icon: Iconsax.shopping_cart,
-              title: 'Bài tập 6: Thương mại điện tử - WebAPI',
+              title: 'Bài tập 6: Thương mại điện tử',
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushReplacement(
