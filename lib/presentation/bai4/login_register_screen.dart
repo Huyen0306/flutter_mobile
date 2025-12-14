@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/custom_menu_button.dart';
 import 'login_form.dart';
@@ -32,7 +31,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
             padding: EdgeInsets.only(
               left: 24,
               right: 24,
-              top: MediaQuery.of(context).padding.top + 50,
+              top: MediaQuery.of(context).padding.top + 80,
               bottom: 10,
             ),
             child: _isLogin

@@ -33,9 +33,12 @@ class _RegisterFormState extends State<RegisterForm> {
         );
         return;
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Đang xử lý đăng ký')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Đăng ký thành công'),
+          backgroundColor: Colors.green,
+        ),
+      );
     }
   }
 

@@ -18,9 +18,12 @@ class _LoginFormState extends State<LoginForm> {
 
   void _handleLogin() {
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Đang xử lý đăng nhập')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Đăng nhập thành công'),
+          backgroundColor: Colors.green,
+        ),
+      );
     }
   }
 
@@ -50,17 +53,17 @@ class _LoginFormState extends State<LoginForm> {
           ),
           const SizedBox(height: 40),
 
-          // Email
-          const Text("Email", style: TextStyle(fontWeight: FontWeight.bold)),
+          // Username
+          const Text(
+            "Tên người dùng",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 8),
           TextFormField(
-            decoration: inputDecoration("Nhập Email"),
+            decoration: inputDecoration("Nhập tên người dùng"),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Vui lòng nhập email';
-              }
-              if (!value.contains('@')) {
-                return 'Vui lòng nhập email hợp lệ';
+                return 'Vui lòng nhập tên người dùng';
               }
               return null;
             },
@@ -83,9 +86,15 @@ class _LoginFormState extends State<LoginForm> {
                     setState(() => _obscurePassword = !_obscurePassword),
               ),
             ),
-            validator: (value) => value == null || value.isEmpty
-                ? 'Vui lòng nhập mật khẩu'
-                : null,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Vui lòng nhập mật khẩu';
+              }
+              if (value.length < 6) {
+                return 'Mật khẩu phải có ít nhất 6 ký tự';
+              }
+              return null;
+            },
           ),
 
           const SizedBox(height: 16),
