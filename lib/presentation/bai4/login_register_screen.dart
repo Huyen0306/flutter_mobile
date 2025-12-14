@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import '../widgets/app_drawer.dart';
+import '../widgets/custom_menu_button.dart';
 import 'login_form.dart';
 import 'register_form.dart';
 
@@ -23,30 +25,22 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text(
-          'Bài tập 4',
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 18,
-            color: Colors.black,
+      drawer: const AppDrawer(),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: EdgeInsets.only(
+              left: 24,
+              right: 24,
+              top: MediaQuery.of(context).padding.top + 50,
+              bottom: 10,
+            ),
+            child: _isLogin
+                ? LoginForm(onRegisterTap: _toggleForm)
+                : RegisterForm(onLoginTap: _toggleForm),
           ),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Iconsax.arrow_left_2, color: Colors.black, size: 22),
-          onPressed: () => Navigator.pop(context),
-        ),
-        centerTitle: true,
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-          child: _isLogin
-              ? LoginForm(onRegisterTap: _toggleForm)
-              : RegisterForm(onLoginTap: _toggleForm),
-        ),
+          const FloatingMenuButton(),
+        ],
       ),
     );
   }
