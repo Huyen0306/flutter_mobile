@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import '../widgets/app_drawer.dart';
+import '../widgets/custom_menu_button.dart';
 
 const Color kPrimaryColor = Color(0xFFec003f);
 
@@ -18,150 +20,144 @@ class _TimerCounterScreenState extends State<TimerCounterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          'Bài tập 3: Bộ đếm thời gian',
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-        ),
-        leading: IconButton(
-          icon: const Icon(
-            Iconsax.arrow_left_2,
-            color: kPrimaryColor,
-            size: 22,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        centerTitle: true,
-      ),
-      body: Column(
+      drawer: const AppDrawer(),
+      body: Stack(
         children: [
-          const SizedBox(height: 20),
-          // Sliding Segmented Control
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: BorderRadius.circular(25),
+          Padding(
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).padding.top + 60,
             ),
-            child: Row(
+            child: Column(
               children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => setState(() => _selectedIndex = 0),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      decoration: BoxDecoration(
-                        color: _selectedIndex == 0
-                            ? Colors.white
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(25),
-                        boxShadow: _selectedIndex == 0
-                            ? [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 2),
+                const SizedBox(height: 20),
+                // Sliding Segmented Control
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () => setState(() => _selectedIndex = 0),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            decoration: BoxDecoration(
+                              color: _selectedIndex == 0
+                                  ? Colors.white
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(25),
+                              boxShadow: _selectedIndex == 0
+                                  ? [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ]
+                                  : [],
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Timer',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: _selectedIndex == 0
+                                      ? kPrimaryColor
+                                      : Colors.black,
                                 ),
-                              ]
-                            : [],
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Timer',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: _selectedIndex == 0
-                                ? kPrimaryColor
-                                : Colors.black,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () => setState(() => _selectedIndex = 1),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            decoration: BoxDecoration(
+                              color: _selectedIndex == 1
+                                  ? Colors.white
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(25),
+                              boxShadow: _selectedIndex == 1
+                                  ? [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ]
+                                  : [],
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Counter',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: _selectedIndex == 1
+                                      ? kPrimaryColor
+                                      : Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () => setState(() => _selectedIndex = 2),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            decoration: BoxDecoration(
+                              color: _selectedIndex == 2
+                                  ? Colors.white
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(25),
+                              boxShadow: _selectedIndex == 2
+                                  ? [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ]
+                                  : [],
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Màu sắc',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: _selectedIndex == 2
+                                      ? kPrimaryColor
+                                      : Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+                const SizedBox(height: 20),
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () => setState(() => _selectedIndex = 1),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      decoration: BoxDecoration(
-                        color: _selectedIndex == 1
-                            ? Colors.white
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(25),
-                        boxShadow: _selectedIndex == 1
-                            ? [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ]
-                            : [],
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Counter',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: _selectedIndex == 1
-                                ? kPrimaryColor
-                                : Colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => setState(() => _selectedIndex = 2),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      decoration: BoxDecoration(
-                        color: _selectedIndex == 2
-                            ? Colors.white
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(25),
-                        boxShadow: _selectedIndex == 2
-                            ? [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ]
-                            : [],
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Màu sắc',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: _selectedIndex == 2
-                                ? kPrimaryColor
-                                : Colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  child: _selectedIndex == 0
+                      ? const TimerWidget()
+                      : _selectedIndex == 1
+                      ? const CounterWidget()
+                      : const ColorChangerWidget(),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 20),
-          Expanded(
-            child: _selectedIndex == 0
-                ? const TimerWidget()
-                : _selectedIndex == 1
-                ? const CounterWidget()
-                : const ColorChangerWidget(),
-          ),
+          const FloatingMenuButton(),
         ],
       ),
     );
