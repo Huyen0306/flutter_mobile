@@ -148,6 +148,7 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
                     onChanged: _onSearchChanged,
                     decoration: InputDecoration(
                       hintText: 'Tìm kiếm sản phẩm...',
+                      hintStyle: TextStyle(color: Colors.grey[400]),
                       prefixIcon: const Icon(
                         Iconsax.search_normal,
                         color: kPrimaryColor,
@@ -155,15 +156,15 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide.none,
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         borderSide: BorderSide.none,
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16),
                         borderSide: const BorderSide(
                           color: kPrimaryColor,
                           width: 1,
@@ -174,7 +175,7 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
                   ),
                 ),
 
-                // Product Grid
+                // Product Grid (Staggered)
                 Expanded(
                   child: _isLoading
                       ? const Center(child: CircularProgressIndicator())
@@ -203,14 +204,13 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
                           onRefresh: () =>
                               _fetchProducts(query: _searchController.text),
                           child: GridView.builder(
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.all(16),
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
-                                  childAspectRatio:
-                                      0.62, // Adjusted to prevent overflow
-                                  crossAxisSpacing: 12,
-                                  mainAxisSpacing: 12,
+                                  childAspectRatio: 0.72,
+                                  crossAxisSpacing: 16,
+                                  mainAxisSpacing: 16,
                                 ),
                             itemCount: _products.length,
                             itemBuilder: (context, index) {
@@ -241,146 +241,169 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 16,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image & Discount
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(12),
-                  ),
-                  child: AspectRatio(
-                    aspectRatio: 1.1,
-                    child: Image.network(
-                      product.thumbnail,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => Container(
-                        color: Colors.grey[200],
-                        child: const Icon(
-                          Icons.image_not_supported,
-                          color: Colors.grey,
+            // Image & Badges
+            Expanded(
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(16),
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: Image.network(
+                        product.thumbnail,
+                        fit: BoxFit.contain,
+                        errorBuilder: (_, __, ___) => Container(
+                          color: Colors.grey[100],
+                          child: Icon(
+                            Icons.image_not_supported,
+                            color: Colors.grey[300],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                if (product.discountPercentage > 0)
+                  // Discount Tag
+                  if (product.discountPercentage > 0)
+                    Positioned(
+                      top: 10,
+                      left: 10,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFF3B30),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          '-${product.discountPercentage.round()}%',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  // Favorite Button
                   Positioned(
                     top: 8,
-                    left: 8,
+                    right: 8,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 6,
-                        vertical: 2,
-                      ),
+                      padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
-                        color: kPrimaryColor,
-                        borderRadius: BorderRadius.circular(4),
+                        color: Colors.white.withOpacity(0.9),
+                        shape: BoxShape.circle,
                       ),
-                      child: Text(
-                        '-${product.discountPercentage.round()}%',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      child: const Icon(
+                        Iconsax.heart,
+                        size: 18,
+                        color: Colors.black,
                       ),
                     ),
                   ),
-              ],
+                ],
+              ),
             ),
 
-            // Info
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Title
-                    Text(
-                      product.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black87,
-                      ),
+            // Content
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Title
+                  Text(
+                    product.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF1B1E28),
+                      height: 1.3,
                     ),
+                  ),
+                  const SizedBox(height: 4),
 
-                    const SizedBox(height: 4),
+                  // Rating
+                  Row(
+                    children: [
+                      Icon(Iconsax.star1, color: Colors.amber[400], size: 14),
+                      const SizedBox(width: 4),
+                      Text(
+                        product.rating.toString(),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[600],
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        '  |  Đã bán ${product.stock * 5}',
+                        style: TextStyle(fontSize: 12, color: Colors.grey[400]),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
 
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Price
-                        Row(
-                          children: [
-                            Text(
-                              '\$${product.price.toStringAsFixed(2)}',
-                              style: const TextStyle(
-                                color: kPrimaryColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
+                  // Price & Add Button
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '\$${product.price.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                              color: kPrimaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
                             ),
-                            const SizedBox(width: 6),
+                          ),
+                          if (product.discountPercentage > 0)
                             Text(
                               '\$${product.originalPrice.toStringAsFixed(2)}',
                               style: const TextStyle(
                                 color: Colors.grey,
-                                fontSize: 12,
+                                fontSize: 11,
                                 decoration: TextDecoration.lineThrough,
                               ),
                             ),
-                          ],
+                        ],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: kPrimaryColor,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-
-                        const SizedBox(height: 6),
-
-                        // Rating & Sold
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                              size: 14,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              product.rating.toString(),
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: Colors.black54,
-                              ),
-                            ),
-                            const Spacer(),
-                            Text(
-                              'Đã bán ${product.stock * 12}+', // Fake "sold" data based on stock
-                              style: const TextStyle(
-                                fontSize: 11,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
+                        child: const Icon(
+                          Iconsax.add,
+                          color: Colors.white,
+                          size: 20,
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],
