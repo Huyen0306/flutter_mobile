@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'dart:ui';
 import 'package:iconsax/iconsax.dart';
+import '../widgets/app_drawer.dart';
+import '../widgets/custom_menu_button.dart';
 
 const Color kPrimaryColor = Color(0xFFec003f);
 
@@ -90,11 +92,6 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
       if (response.statusCode == 200) {
         final data = response.data;
         setState(() {
-          _accessToken =
-              data['token']; // DummyJSON returns 'token' or 'accessToken'? Docs say accessToken but sometimes it's token. Let's check response structure usually.
-          // Actually dummyjson returns 'token' (jwt) AND 'refreshToken'.
-          // Wait, recent docs say 'accessToken' and 'refreshToken'. Let's trust standard but handle flexibility if needed.
-          // For safety, let's grab 'accessToken' ?? 'token'.
           _accessToken = data['accessToken'] ?? data['token'];
           _refreshToken = data['refreshToken'];
 
@@ -172,34 +169,21 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: isLogged
-          ? null
-          : AppBar(
-              title: const Text(
-                'Bài tập 8',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18,
-                  color: Colors.black,
-                ),
-              ),
-              backgroundColor: Colors.white,
-              elevation: 0,
-              centerTitle: true,
-              leading: IconButton(
-                icon: const Icon(
-                  Iconsax.arrow_left_2,
-                  color: Colors.black,
-                  size: 22,
-                ),
-                onPressed: () => Navigator.pop(context),
-              ),
+      drawer: const AppDrawer(),
+      body: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).padding.top + 60,
             ),
-      body: isLogged ? _buildProfileView() : SafeArea(child: _buildLoginView()),
+            child: isLogged ? _buildProfileView() : _buildLoginView(),
+          ),
+          const FloatingMenuButton(),
+        ],
+      ),
     );
   }
 
-  // --- Login View ---
   // --- Login View ---
   Widget _buildLoginView() {
     return SingleChildScrollView(
