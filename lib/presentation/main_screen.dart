@@ -15,23 +15,6 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: Icon(
-              Iconsax.sidebar_right,
-              color: const Color(0xFFec003f).withOpacity(0.5),
-            ),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          ),
-        ),
-        title: const Text(
-          'Danh sách bài tập',
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-        ),
-        centerTitle: true,
-      ),
       drawer: Drawer(
         backgroundColor: Colors.white,
         child: Padding(
@@ -39,7 +22,7 @@ class MainScreen extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               _buildExerciseCard(
                 icon: Iconsax.home,
                 title: 'Bài tập 1: Home Classroom',
@@ -53,7 +36,7 @@ class MainScreen extends StatelessWidget {
                   );
                 },
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               _buildExerciseCard(
                 icon: Iconsax.user,
                 title: 'Bài tập 2: Welcome Charlie',
@@ -67,7 +50,7 @@ class MainScreen extends StatelessWidget {
                   );
                 },
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               _buildExerciseCard(
                 icon: Iconsax.timer_1,
                 title: 'Bài tập 3: Bộ đếm thời gian & Đếm số',
@@ -81,7 +64,7 @@ class MainScreen extends StatelessWidget {
                   );
                 },
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               _buildExerciseCard(
                 icon: Iconsax.login,
                 title: 'Bài tập 4: Form Login và Register',
@@ -95,7 +78,7 @@ class MainScreen extends StatelessWidget {
                   );
                 },
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               _buildExerciseCard(
                 icon: Iconsax.health,
                 title: 'Bài tập 5: Bài tập BMI & Gửi phản hồi',
@@ -109,7 +92,7 @@ class MainScreen extends StatelessWidget {
                   );
                 },
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               _buildExerciseCard(
                 icon: Iconsax.shopping_cart,
                 title: 'Bài tập 6: Thương mại điện tử - WebAPI',
@@ -123,7 +106,7 @@ class MainScreen extends StatelessWidget {
                   );
                 },
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               _buildExerciseCard(
                 icon: Iconsax.global,
                 title: 'Bài tập 7: Tin Tức - WebAPI',
@@ -137,7 +120,7 @@ class MainScreen extends StatelessWidget {
                   );
                 },
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               _buildExerciseCard(
                 icon: Iconsax.profile_circle,
                 title: 'Bài tập 8: Login & Profile',
@@ -155,119 +138,68 @@ class MainScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: Colors.grey.withOpacity(0.015),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              _buildExerciseCard(
-                icon: Iconsax.home,
-                title: 'Bài tập 1: Home Classroom',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HomeClassroomScreen(),
+      body: Builder(
+        builder: (context) => Stack(
+          children: [
+            // 3 phần ảnh, mỗi phần 33%
+            Column(
+              children: [
+                // Phần 1 - 33%
+                Expanded(
+                  flex: 1,
+                  child: Image.asset(
+                    'assets/images/flutter1.png',
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  ),
+                ),
+                // Phần 2 - 33%
+                Expanded(
+                  flex: 1,
+                  child: Image.asset(
+                    'assets/images/flutter2.png',
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  ),
+                ),
+                // Phần 3 - 33%
+                Expanded(
+                  flex: 1,
+                  child: Image.asset(
+                    'assets/images/flutter3.png',
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  ),
+                ),
+              ],
+            ),
+            // Menu button at top left
+            Positioned(
+              top: MediaQuery.of(context).padding.top + 16,
+              left: 16,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
                     ),
-                  );
-                },
+                  ],
+                ),
+                child: IconButton(
+                  icon: Icon(
+                    Iconsax.sidebar_right,
+                    color: const Color(0xFFec003f),
+                    size: 28,
+                  ),
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                ),
               ),
-              SizedBox(height: 12),
-              _buildExerciseCard(
-                icon: Iconsax.user,
-                title: 'Bài tập 2: Welcome Charlie',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const WelcomeCharlieScreen(),
-                    ),
-                  );
-                },
-              ),
-              SizedBox(height: 12),
-              _buildExerciseCard(
-                icon: Iconsax.timer_1,
-                title: 'Bài tập 3: Bộ đếm thời gian & Đếm số',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const TimerCounterScreen(),
-                    ),
-                  );
-                },
-              ),
-              SizedBox(height: 12),
-              _buildExerciseCard(
-                icon: Iconsax.login,
-                title: 'Bài tập 4: Form Login và Register',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginRegisterScreen(),
-                    ),
-                  );
-                },
-              ),
-              SizedBox(height: 12),
-              _buildExerciseCard(
-                icon: Iconsax.health,
-                title: 'Bài tập 5: Bài tập BMI & Gửi phản hồi',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const BmiFeedbackScreen(),
-                    ),
-                  );
-                },
-              ),
-              SizedBox(height: 12),
-              _buildExerciseCard(
-                icon: Iconsax.shopping_cart,
-                title: 'Bài tập 6: Thương mại điện tử - WebAPI',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const EcommerceScreen(),
-                    ),
-                  );
-                },
-              ),
-              SizedBox(height: 12),
-              _buildExerciseCard(
-                icon: Iconsax.global,
-                title: 'Bài tập 7: Tin Tức - WebAPI',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const NewApiScreen(),
-                    ),
-                  );
-                },
-              ),
-              SizedBox(height: 12),
-              _buildExerciseCard(
-                icon: Iconsax.profile_circle,
-                title: 'Bài tập 8: Login & Profile',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginProfileScreen(),
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
