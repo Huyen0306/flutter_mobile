@@ -384,7 +384,7 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 50),
+          const SizedBox(height: 30),
           // Avatar & Info
           Center(
             child: Column(
@@ -474,7 +474,7 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
             children: [
               _buildRowItem(_currentUser!.email),
               const SizedBox(height: 12),
-              _buildRowItem("+62 893 9999 9999"),
+              _buildRowItem("Username: ${_currentUser!.username}"),
             ],
           ),
           const SizedBox(height: 20),
@@ -508,6 +508,40 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
                     value: true,
                     onChanged: (val) {},
                     activeColor: const Color(0xFF5D3FD3), // Purple
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          _buildSectionCard(
+            title: "PAYMENT METHOD",
+            icon: Iconsax.card,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "•••• 7382",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.blue[50],
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: const Text(
+                      "VISA",
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
+                      ),
+                    ),
                   ),
                 ],
               ),
