@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import '../widgets/app_drawer.dart';
+import '../widgets/custom_menu_button.dart';
 
 class HomeClassroomScreen extends StatelessWidget {
   const HomeClassroomScreen({super.key});
@@ -12,67 +14,70 @@ class HomeClassroomScreen extends StatelessWidget {
         'code': '2025-2026.1.TIN4583.001',
         'students': '58 học viên',
         'imageUrl': 'assets/images/background_classroom_1.png',
-        'gradientColors': [Color(0xFF333333), Color(0xFF454545)],
+        'gradientColors': [const Color(0xFF333333), const Color(0xFF454545)],
       },
       {
         'title': 'Lập trình Mobile Đa Nền Tảng',
         'code': '2025-2026.1.TIN4403.006',
         'students': '55 học viên',
         'imageUrl': 'assets/images/background_classroom_2.png',
-        'gradientColors': [Color(0xFF37474F), Color(0xFF455A64)],
+        'gradientColors': [const Color(0xFF37474F), const Color(0xFF455A64)],
       },
       {
         'title': 'Phát triển Ứng dụng Web',
         'code': '2025-2026.1.TIN4403.005',
         'students': '52 học viên',
         'imageUrl': 'assets/images/background_classroom_3.png',
-        'gradientColors': [Color(0xFF263238), Color(0xFF37474F)],
+        'gradientColors': [const Color(0xFF263238), const Color(0xFF37474F)],
       },
       {
         'title': 'Nhập môn Trí tuệ Nhân tạo',
         'code': '2025-2026.1.TIN4403.004',
         'students': '50 học viên',
         'imageUrl': 'assets/images/background_classroom_4.png',
-        'gradientColors': [Color(0xFF1565C0), Color(0xFF1976D2)],
+        'gradientColors': [const Color(0xFF1565C0), const Color(0xFF1976D2)],
       },
       {
         'title': 'Cấu trúc Dữ liệu và Giải thuật',
         'code': '2025-2026.1.TIN4403.003',
         'students': '52 học viên',
         'imageUrl': 'assets/images/background_classroom_1.png',
-        'gradientColors': [Color(0xFF212121), Color(0xFF424242)],
+        'gradientColors': [const Color(0xFF212121), const Color(0xFF424242)],
       },
     ];
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          'Bài tập 1: Google Classroom',
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-        ),
-        leading: IconButton(
-          icon: const Icon(Iconsax.arrow_left_2, color: Colors.blue, size: 22),
-          onPressed: () => Navigator.pop(context),
-        ),
-        centerTitle: true,
-      ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(10),
-        itemCount: courses.length,
-        separatorBuilder: (context, index) => const SizedBox(height: 10),
-        itemBuilder: (context, index) {
-          final course = courses[index];
-          return CourseCard(
-            title: course['title'],
-            code: course['code'],
-            studentCount: course['students'],
-            imageUrl: course['imageUrl'],
-            gradientColors: course['gradientColors'],
-          );
-        },
+      drawer: const AppDrawer(),
+      body: Stack(
+        children: [
+          // Content
+          Positioned.fill(
+            child: ListView.separated(
+              padding: EdgeInsets.only(
+                top:
+                    MediaQuery.of(context).padding.top +
+                    80, // Space for button/header
+                left: 10,
+                right: 10,
+                bottom: 10,
+              ),
+              itemCount: courses.length,
+              separatorBuilder: (context, index) => const SizedBox(height: 10),
+              itemBuilder: (context, index) {
+                final course = courses[index];
+                return CourseCard(
+                  title: course['title'],
+                  code: course['code'],
+                  studentCount: course['students'],
+                  imageUrl: course['imageUrl'],
+                  gradientColors: course['gradientColors'],
+                );
+              },
+            ),
+          ),
+          const FloatingMenuButton(),
+        ],
       ),
     );
   }
