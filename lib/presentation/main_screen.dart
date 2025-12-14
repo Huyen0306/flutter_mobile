@@ -19,7 +19,10 @@ class MainScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         leading: Builder(
           builder: (context) => IconButton(
-            icon: Icon(Iconsax.menu),
+            icon: Icon(
+              Iconsax.sidebar_right,
+              color: const Color(0xFFec003f).withOpacity(0.5),
+            ),
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
@@ -36,7 +39,7 @@ class MainScreen extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              SizedBox(height: 80),
+              SizedBox(height: 50),
               _buildExerciseCard(
                 icon: Iconsax.home,
                 title: 'Bài tập 1: Home Classroom',
@@ -282,9 +285,15 @@ class MainScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: const Color(0xFFec003f).withOpacity(0.5),
-            width: 0.5,
+          border: Border(
+            left: BorderSide(
+              color: const Color(0xFFec003f).withOpacity(0.5),
+              width: 2 * 1.618,
+            ),
+            bottom: BorderSide(
+              color: const Color(0xFFec003f).withOpacity(0.5),
+              width: 2 * 1.618,
+            ),
           ),
         ),
         child: Row(
@@ -295,7 +304,7 @@ class MainScreen extends StatelessWidget {
                 color: const Color(0xFFec003f).withOpacity(0.1),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(icon, color: const Color(0xFFec003f), size: 24),
+              child: Icon(icon, color: const Color(0xFFec003f), size: 20),
             ),
             const SizedBox(width: 14),
             Expanded(
@@ -308,7 +317,19 @@ class MainScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const Icon(Iconsax.arrow_right_3, color: Colors.grey, size: 20),
+            const SizedBox(width: 14),
+            Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: const Color(0xFFec003f).withOpacity(0.5),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(
+                Iconsax.arrow_right_1,
+                color: Colors.white,
+                size: 16,
+              ),
+            ),
           ],
         ),
       ),
