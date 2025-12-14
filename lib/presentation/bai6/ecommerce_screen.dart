@@ -3,6 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:iconsax/iconsax.dart';
 import 'dart:async';
 import 'ecommerce_detail_screen.dart';
+import '../widgets/app_drawer.dart';
+import '../widgets/custom_menu_button.dart';
 
 const Color kPrimaryColor = Color(0xFFec003f);
 
@@ -126,108 +128,99 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5FA), // Light grey background
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Iconsax.arrow_left_2, color: Colors.black87),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          'Bài tập 6',
-          style: TextStyle(
-            color: Colors.black87,
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Iconsax.shopping_cart, color: kPrimaryColor),
-            onPressed: () {},
-          ),
-          const SizedBox(width: 8),
-        ],
-      ),
-      body: Column(
+      drawer: const AppDrawer(),
+      body: Stack(
         children: [
-          // Search Bar
-          Container(
-            padding: const EdgeInsets.all(16),
-            color: Colors.white,
-            child: TextField(
-              controller: _searchController,
-              onChanged: _onSearchChanged,
-              decoration: InputDecoration(
-                hintText: 'Tìm kiếm sản phẩm...',
-                prefixIcon: const Icon(
-                  Iconsax.search_normal,
-                  color: kPrimaryColor,
-                ),
-                filled: true,
-                fillColor: Colors.grey[50], // Slightly lighter background
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: kPrimaryColor, width: 1),
-                ),
-                contentPadding: const EdgeInsets.symmetric(vertical: 0),
-              ),
+          Padding(
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).padding.top + 60,
             ),
-          ),
-
-          // Product Grid
-          Expanded(
-            child: _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : _error != null
-                ? Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.error_outline,
-                          size: 48,
-                          color: Colors.red,
+            child: Column(
+              children: [
+                // Search Bar
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  color: Colors.white,
+                  child: TextField(
+                    controller: _searchController,
+                    onChanged: _onSearchChanged,
+                    decoration: InputDecoration(
+                      hintText: 'Tìm kiếm sản phẩm...',
+                      prefixIcon: const Icon(
+                        Iconsax.search_normal,
+                        color: kPrimaryColor,
+                      ),
+                      filled: true,
+                      fillColor: Colors.grey[50], // Slightly lighter background
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(
+                          color: kPrimaryColor,
+                          width: 1,
                         ),
-                        const SizedBox(height: 16),
-                        Text('Lỗi: $_error'),
-                        TextButton(
-                          onPressed: () =>
-                              _fetchProducts(query: _searchController.text),
-                          child: const Text('Thử lại'),
-                        ),
-                      ],
-                    ),
-                  )
-                : RefreshIndicator(
-                    onRefresh: () =>
-                        _fetchProducts(query: _searchController.text),
-                    child: GridView.builder(
-                      padding: const EdgeInsets.all(12),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio:
-                                0.62, // Adjusted to prevent overflow
-                            crossAxisSpacing: 12,
-                            mainAxisSpacing: 12,
-                          ),
-                      itemCount: _products.length,
-                      itemBuilder: (context, index) {
-                        return _buildProductCard(_products[index]);
-                      },
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 0),
                     ),
                   ),
+                ),
+
+                // Product Grid
+                Expanded(
+                  child: _isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : _error != null
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.error_outline,
+                                size: 48,
+                                color: Colors.red,
+                              ),
+                              const SizedBox(height: 16),
+                              Text('Lỗi: $_error'),
+                              TextButton(
+                                onPressed: () => _fetchProducts(
+                                  query: _searchController.text,
+                                ),
+                                child: const Text('Thử lại'),
+                              ),
+                            ],
+                          ),
+                        )
+                      : RefreshIndicator(
+                          onRefresh: () =>
+                              _fetchProducts(query: _searchController.text),
+                          child: GridView.builder(
+                            padding: const EdgeInsets.all(12),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio:
+                                      0.62, // Adjusted to prevent overflow
+                                  crossAxisSpacing: 12,
+                                  mainAxisSpacing: 12,
+                                ),
+                            itemCount: _products.length,
+                            itemBuilder: (context, index) {
+                              return _buildProductCard(_products[index]);
+                            },
+                          ),
+                        ),
+                ),
+              ],
+            ),
           ),
+          const FloatingMenuButton(),
         ],
       ),
     );
