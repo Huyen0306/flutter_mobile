@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -235,72 +234,74 @@ class _TimerWidgetState extends State<TimerWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            'Nhập số giây cần đếm:',
-            style: TextStyle(fontSize: 16, color: Colors.black54),
-          ),
-          const SizedBox(height: 10),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[100],
-              borderRadius: BorderRadius.circular(12),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Nhập số giây cần đếm:',
+              style: TextStyle(fontSize: 16, color: Colors.black54),
             ),
-            child: TextField(
-              controller: _controller,
-              keyboardType: TextInputType.number,
-              textAlign: TextAlign.center,
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 14,
-                ),
-                hintText: 'Nhập số giây',
+            const SizedBox(height: 10),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular(12),
               ),
-              onChanged: (value) {
-                setState(() {
-                  _seconds = int.tryParse(value) ?? 0;
-                  _initialSeconds = _seconds;
-                });
-              },
+              child: TextField(
+                controller: _controller,
+                keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
+                  hintText: 'Nhập số giây',
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _seconds = int.tryParse(value) ?? 0;
+                    _initialSeconds = _seconds;
+                  });
+                },
+              ),
             ),
-          ),
-          const SizedBox(height: 40),
-          Text(
-            _formatTime(_seconds),
-            style: const TextStyle(
-              fontSize: 60,
-              fontWeight: FontWeight.bold,
-              color: kPrimaryColor,
+            const SizedBox(height: 40),
+            Text(
+              _formatTime(_seconds),
+              style: const TextStyle(
+                fontSize: 60,
+                fontWeight: FontWeight.bold,
+                color: kPrimaryColor,
+              ),
             ),
-          ),
-          const SizedBox(height: 60),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: _buildButton(
-                  label: 'Bắt đầu',
-                  icon: Iconsax.play,
-                  onTap: _startTimer,
-                  isActive: !_isRunning && _seconds > 0,
+            const SizedBox(height: 60),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: _buildButton(
+                    label: 'Bắt đầu',
+                    icon: Iconsax.play,
+                    onTap: _startTimer,
+                    isActive: !_isRunning && _seconds > 0,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: _buildButton(
-                  label: 'Đặt lại',
-                  icon: Iconsax.refresh,
-                  onTap: _resetTimer,
-                  isActive: true,
+                const SizedBox(width: 20),
+                Expanded(
+                  child: _buildButton(
+                    label: 'Đặt lại',
+                    icon: Iconsax.refresh,
+                    onTap: _resetTimer,
+                    isActive: true,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
