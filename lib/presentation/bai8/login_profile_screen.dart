@@ -97,6 +97,7 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
           // For safety, let's grab 'accessToken' ?? 'token'.
           _accessToken = data['accessToken'] ?? data['token'];
           _refreshToken = data['refreshToken'];
+
           _currentUser = User.fromJson(data);
         });
         _showSnackBar('Đăng nhập thành công!', Colors.green);
@@ -141,6 +142,7 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
     setState(() {
       _accessToken = null;
       _refreshToken = null;
+
       _currentUser = null;
       _usernameController.text = 'emilys';
       _passwordController.text = 'emilyspass';
@@ -170,24 +172,30 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text(
-          'Bài tập 8',
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 18,
-            color: Colors.black,
-          ),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Iconsax.arrow_left_2, color: Colors.black, size: 22),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: SafeArea(child: isLogged ? _buildProfileView() : _buildLoginView()),
+      appBar: isLogged
+          ? null
+          : AppBar(
+              title: const Text(
+                'Bài tập 8',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
+              ),
+              backgroundColor: Colors.white,
+              elevation: 0,
+              centerTitle: true,
+              leading: IconButton(
+                icon: const Icon(
+                  Iconsax.arrow_left_2,
+                  color: Colors.black,
+                  size: 22,
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+      body: isLogged ? _buildProfileView() : SafeArea(child: _buildLoginView()),
     );
   }
 
@@ -372,218 +380,203 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
   // --- Profile View ---
   Widget _buildProfileView() {
     return SingleChildScrollView(
+      padding: const EdgeInsets.all(24),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header Background with Avatar
-          Stack(
-            alignment: Alignment.center,
-            clipBehavior: Clip.none,
-            children: [
-              Container(
-                height: 150,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Color(0xFFec003f), Color(0xFFfc6767)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.vertical(
-                    bottom: Radius.circular(30),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 100,
-                child: Container(
+          const SizedBox(height: 50),
+          // Avatar & Info
+          Center(
+            child: Column(
+              children: [
+                Container(
                   padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 10,
-                        offset: const Offset(0, 5),
-                      ),
-                    ],
                   ),
                   child: CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.grey[200],
-                    backgroundImage: NetworkImage(_currentUser!.image),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 70), // Space for Avatar
-          // Greeting
-          Text(
-            "Xin chào, ${_currentUser!.firstName}!",
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            "Bạn đang đăng nhập với tư cách thành viên",
-            style: TextStyle(color: Colors.grey[600], fontSize: 14),
-          ),
-          const SizedBox(height: 30),
-
-          // Content Container
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "Thông tin hồ sơ",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    radius: 60,
+                    backgroundImage: AssetImage('assets/images/flutter1.png'),
                   ),
                 ),
                 const SizedBox(height: 16),
-
-                // Info List
-                _buildInfoTile("ID", _currentUser!.id.toString(), Iconsax.card),
-                _buildInfoTile(
-                  "Tên đăng nhập",
-                  _currentUser!.username,
-                  Iconsax.user,
-                ),
-                _buildInfoTile("Email", _currentUser!.email, Iconsax.sms),
-                _buildInfoTile(
-                  "Họ và tên",
-                  _currentUser!.fullName,
-                  Iconsax.profile_circle,
-                ),
-                _buildInfoTile("Giới tính", _currentUser!.gender, Iconsax.man),
-
-                const SizedBox(height: 30),
-                const Text(
-                  "Hành động",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                ),
-                const SizedBox(height: 16),
-
                 Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Expanded(
-                      child: _buildActionButton(
-                        label: "Làm mới",
-                        icon: Iconsax.refresh,
-                        color: Colors.blue.shade50,
-                        iconColor: Colors.blue,
-                        onTap: _refreshTokenFunc,
+                    Text(
+                      _currentUser!.fullName,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
                     ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: _buildActionButton(
-                        label: "Đăng xuất",
-                        icon: Iconsax.logout,
-                        color: const Color(0xFFFFF0F3), // Light Red/Pink
-                        iconColor: const Color(0xFFec003f), // Primary Color
-                        onTap: _logout,
-                      ),
-                    ),
+                    const SizedBox(width: 8),
+                    const Icon(Iconsax.edit, size: 20, color: Colors.black),
                   ],
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 8),
+                Text(
+                  _currentUser!.email,
+                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                ),
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
+          const SizedBox(height: 30),
 
-  Widget _buildInfoTile(String label, String value, IconData icon) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.grey[50],
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade100),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(icon, color: const Color(0xFF6A85B6)),
-          ),
-          const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          // Action Buttons
+          Row(
             children: [
-              Text(
-                label,
-                style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: _logout,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFFFF0F3), // Light Red
+                    foregroundColor: const Color(0xFFFF3B30), // Red Text
+                    elevation: 0,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: const Text(
+                    "Log out",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
               ),
-              const SizedBox(height: 4),
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
+              const SizedBox(width: 16),
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: _refreshTokenFunc,
+                  icon: const Icon(Iconsax.refresh, size: 20),
+                  label: const Text("Refresh Token"),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.black,
+                    side: BorderSide(color: Colors.grey.shade300),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
+          const SizedBox(height: 30),
+
+          // Sections
+          _buildSectionCard(
+            title: "CONTACT",
+            icon: Iconsax.user,
+            children: [
+              _buildRowItem(_currentUser!.email),
+              const SizedBox(height: 12),
+              _buildRowItem("+62 893 9999 9999"),
+            ],
+          ),
+          const SizedBox(height: 20),
+          _buildSectionCard(
+            title: "PASSWORD",
+            icon: Iconsax.lock,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "••••••••",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 2,
+                    ),
+                  ),
+                  const Icon(Iconsax.eye_slash, size: 20, color: Colors.grey),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "2FA Authentication",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                  ),
+                  Switch(
+                    value: true,
+                    onChanged: (val) {},
+                    activeColor: const Color(0xFF5D3FD3), // Purple
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 40),
         ],
       ),
     );
   }
 
-  Widget _buildActionButton({
-    required String label,
+  Widget _buildSectionCard({
+    required String title,
     required IconData icon,
-    required Color color,
-    required Color iconColor,
-    required VoidCallback onTap,
+    required List<Widget> children,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        decoration: BoxDecoration(
-          color: color, // Light background
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, color: iconColor),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              label,
-              style: TextStyle(color: iconColor, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.grey.shade200),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, size: 18, color: Colors.green[800]),
+              const SizedBox(width: 8),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green[800],
+                  letterSpacing: 1,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          ...children,
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRowItem(String text) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          text,
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+            color: Colors.black87,
+          ),
+        ),
+        const Icon(Icons.more_vert, size: 20, color: Colors.grey),
+      ],
     );
   }
 }
