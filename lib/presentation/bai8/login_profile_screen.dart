@@ -384,7 +384,7 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 30),
+          const SizedBox(height: 20),
           // Avatar & Info
           Center(
             child: Column(
@@ -397,24 +397,17 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
                   ),
                   child: CircleAvatar(
                     radius: 60,
-                    backgroundImage: AssetImage('assets/images/flutter1.png'),
+                    backgroundImage: AssetImage('assets/images/flutter2.png'),
                   ),
                 ),
                 const SizedBox(height: 16),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      _currentUser!.fullName,
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    const Icon(Iconsax.edit, size: 20, color: Colors.black),
-                  ],
+                Text(
+                  _currentUser!.fullName,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -467,85 +460,31 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
           ),
           const SizedBox(height: 30),
 
-          // Sections
-          _buildSectionCard(
-            title: "CONTACT",
-            icon: Iconsax.user,
-            children: [
-              _buildRowItem(_currentUser!.email),
-              const SizedBox(height: 12),
-              _buildRowItem("Username: ${_currentUser!.username}"),
-            ],
+          // Individual Info Cards
+          _buildSingleInfoCard(
+            "HỌ VÀ TÊN",
+            _currentUser!.fullName,
+            Iconsax.user,
           ),
-          const SizedBox(height: 20),
-          _buildSectionCard(
-            title: "PASSWORD",
-            icon: Iconsax.lock,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "••••••••",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2,
-                    ),
-                  ),
-                  const Icon(Iconsax.eye_slash, size: 20, color: Colors.grey),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "2FA Authentication",
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-                  ),
-                  Switch(
-                    value: true,
-                    onChanged: (val) {},
-                    activeColor: const Color(0xFF5D3FD3), // Purple
-                  ),
-                ],
-              ),
-            ],
+          const SizedBox(height: 16),
+          _buildSingleInfoCard("EMAIL", _currentUser!.email, Iconsax.sms),
+          const SizedBox(height: 16),
+          _buildSingleInfoCard(
+            "GIỚI TÍNH",
+            _currentUser!.gender,
+            Iconsax.profile_2user,
           ),
-          const SizedBox(height: 20),
-          _buildSectionCard(
-            title: "PAYMENT METHOD",
-            icon: Iconsax.card,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "•••• 7382",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.blue[50],
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: const Text(
-                      "VISA",
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+          const SizedBox(height: 16),
+          _buildSingleInfoCard(
+            "TÊN ĐĂNG NHẬP",
+            _currentUser!.username,
+            Iconsax.tag,
+          ),
+          const SizedBox(height: 16),
+          _buildSingleInfoCard(
+            "MẬT KHẨU",
+            _passwordController.text,
+            Iconsax.lock,
           ),
           const SizedBox(height: 40),
         ],
@@ -553,12 +492,9 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
     );
   }
 
-  Widget _buildSectionCard({
-    required String title,
-    required IconData icon,
-    required List<Widget> children,
-  }) {
+  Widget _buildSingleInfoCard(String title, String value, IconData icon) {
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -590,27 +526,17 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 20),
-          ...children,
+          const SizedBox(height: 12),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.black87,
+            ),
+          ),
         ],
       ),
-    );
-  }
-
-  Widget _buildRowItem(String text) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          text,
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-            color: Colors.black87,
-          ),
-        ),
-        const Icon(Icons.more_vert, size: 20, color: Colors.grey),
-      ],
     );
   }
 }
