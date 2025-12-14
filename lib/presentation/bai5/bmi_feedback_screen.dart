@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import '../widgets/app_drawer.dart';
+import '../widgets/custom_menu_button.dart';
 
 const Color kPrimaryColor = Color(0xFFec003f);
 
@@ -17,65 +19,59 @@ class _BmiFeedbackScreenState extends State<BmiFeedbackScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          'Bài tập 5',
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(
-            Iconsax.arrow_left_2,
-            color: kPrimaryColor,
-            size: 22,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: Column(
+      drawer: const AppDrawer(),
+      body: Stack(
         children: [
-          const SizedBox(height: 20),
-          // Toggle Menu (Tab Selector)
-          Container(
-            width: double.infinity,
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: Colors.grey[100],
-              borderRadius: BorderRadius.circular(25),
+          Padding(
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).padding.top + 60,
             ),
-            child: Row(
+            child: Column(
               children: [
-                Expanded(
-                  child: _buildTabButton(
-                    index: 0,
-                    label: 'Tính BMI',
-                    isSelected: _selectedIndex == 0,
-                    onTap: () => setState(() => _selectedIndex = 0),
+                const SizedBox(height: 20),
+                // Toggle Menu (Tab Selector)
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[100],
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: _buildTabButton(
+                          index: 0,
+                          label: 'Tính BMI',
+                          isSelected: _selectedIndex == 0,
+                          onTap: () => setState(() => _selectedIndex = 0),
+                        ),
+                      ),
+                      Expanded(
+                        child: _buildTabButton(
+                          index: 1,
+                          label: 'Gửi Phản hồi',
+                          isSelected: _selectedIndex == 1,
+                          onTap: () => setState(() => _selectedIndex = 1),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+                const SizedBox(height: 20),
                 Expanded(
-                  child: _buildTabButton(
-                    index: 1,
-                    label: 'Gửi Phản hồi',
-                    isSelected: _selectedIndex == 1,
-                    onTap: () => setState(() => _selectedIndex = 1),
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: _selectedIndex == 0
+                        ? const BmiCalculatorWidget()
+                        : const FeedbackWidget(),
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 20),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: _selectedIndex == 0
-                  ? const BmiCalculatorWidget()
-                  : const FeedbackWidget(),
-            ),
-          ),
+          const FloatingMenuButton(),
         ],
       ),
     );
