@@ -23,7 +23,7 @@ class WelcomeCharlieScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 10),
-                // Header Title
+                
                 const Text(
                   'Welcome,\nCharlie',
                   style: TextStyle(
@@ -36,7 +36,7 @@ class WelcomeCharlieScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
 
-                // Search Bar
+                
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -59,7 +59,7 @@ class WelcomeCharlieScreen extends StatelessWidget {
 
                 const SizedBox(height: 40),
 
-                // Saved Places Header
+                
                 const Text(
                   'Saved Places',
                   style: TextStyle(
@@ -71,7 +71,7 @@ class WelcomeCharlieScreen extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                // Grid of Places
+                
                 Expanded(
                   child: GridView.count(
                     crossAxisCount: 2,

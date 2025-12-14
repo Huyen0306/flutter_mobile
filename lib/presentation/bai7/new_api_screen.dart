@@ -6,9 +6,9 @@ import '../widgets/custom_menu_button.dart';
 
 const Color kPrimaryColor = Color(0xFFec003f);
 
-// -----------------------------------------------------------------------------
-// MODEL
-// -----------------------------------------------------------------------------
+
+
+
 class Post {
   final int id;
   final String title;
@@ -16,7 +16,7 @@ class Post {
   final int userId;
   final int reactions;
 
-  // Fake generated data for UI enhancement
+  
   late final String imageUrl;
   late final String author;
   late final String date;
@@ -28,7 +28,7 @@ class Post {
     required this.userId,
     required this.reactions,
   }) {
-    // Generate static random-like data based on ID
+    
     imageUrl = 'https://picsum.photos/seed/$id/800/600';
     author = _getFakeAuthor(userId);
     date = '20/4/2022';
@@ -59,9 +59,9 @@ class Post {
   }
 }
 
-// -----------------------------------------------------------------------------
-// SCREEN
-// -----------------------------------------------------------------------------
+
+
+
 class NewApiScreen extends StatefulWidget {
   const NewApiScreen({super.key});
 
@@ -83,7 +83,7 @@ class _NewApiScreenState extends State<NewApiScreen> {
 
   Future<void> _fetchPosts() async {
     try {
-      // DummyJSON Posts API
+      
       final response = await _dio.get('https://dummyjson.com/posts');
 
       if (response.statusCode == 200) {
@@ -158,7 +158,7 @@ class _NewApiScreenState extends State<NewApiScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image
+            
             Hero(
               tag: 'post_image_${post.id}',
               child: ClipRRect(
@@ -190,7 +190,7 @@ class _NewApiScreenState extends State<NewApiScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Title
+                  
                   Text(
                     post.title,
                     maxLines: 2,
@@ -203,7 +203,7 @@ class _NewApiScreenState extends State<NewApiScreen> {
                   ),
                   const SizedBox(height: 8),
 
-                  // Body preview
+                  
                   Text(
                     post.body,
                     maxLines: 3,
@@ -216,7 +216,7 @@ class _NewApiScreenState extends State<NewApiScreen> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Footer: Author & Date
+                  
                   Row(
                     children: [
                       Text(

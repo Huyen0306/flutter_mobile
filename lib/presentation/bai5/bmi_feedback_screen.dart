@@ -29,7 +29,7 @@ class _BmiFeedbackScreenState extends State<BmiFeedbackScreen> {
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                // Toggle Menu (Tab Selector)
+                
                 Container(
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -115,9 +115,9 @@ class _BmiFeedbackScreenState extends State<BmiFeedbackScreen> {
   }
 }
 
-// -----------------------------------------------------------------------------
-// UI COMPONENTS
-// -----------------------------------------------------------------------------
+
+
+
 
 class CustomTextField extends StatelessWidget {
   final String label;
@@ -223,9 +223,9 @@ class CustomButton extends StatelessWidget {
   }
 }
 
-// -----------------------------------------------------------------------------
-// BMI CALCULATOR
-// -----------------------------------------------------------------------------
+
+
+
 
 class BmiCalculatorWidget extends StatefulWidget {
   const BmiCalculatorWidget({super.key});
@@ -360,9 +360,9 @@ class _BmiCalculatorWidgetState extends State<BmiCalculatorWidget> {
   }
 }
 
-// -----------------------------------------------------------------------------
-// FEEDBACK WIDGET
-// -----------------------------------------------------------------------------
+
+
+
 
 class FeedbackWidget extends StatefulWidget {
   const FeedbackWidget({super.key});
@@ -432,11 +432,11 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
               validator: (v) => v!.isEmpty ? 'Vui lòng nhập tên' : null,
             ),
             const SizedBox(height: 20),
-            // Star Rating
+            
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.grey[50], // Match input fill color
+                color: Colors.grey[50], 
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(

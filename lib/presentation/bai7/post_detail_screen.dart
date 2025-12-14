@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'new_api_screen.dart'; // Import to access the Post model
+import 'new_api_screen.dart'; 
 
 const Color kPrimaryColor = Color(0xFFec003f);
 
@@ -43,7 +43,7 @@ class PostDetailScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Image
+                  
                   Hero(
                     tag: 'post_image_${post.id}',
                     child: SizedBox(
@@ -65,7 +65,7 @@ class PostDetailScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Title
+                        
                         Text(
                           post.title,
                           style: const TextStyle(
@@ -77,7 +77,7 @@ class PostDetailScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
 
-                        // Author & Date Info
+                        
                         Row(
                           children: [
                             const CircleAvatar(
@@ -119,10 +119,10 @@ class PostDetailScreen extends StatelessWidget {
                         const Divider(),
                         const SizedBox(height: 20),
 
-                        // Full Body
+                        
                         Text(
                           post.body *
-                              3, // Duplicating to make it look like a long article
+                              3, 
                           style: const TextStyle(
                             fontSize: 16,
                             height: 1.6,
@@ -132,7 +132,7 @@ class PostDetailScreen extends StatelessWidget {
 
                         const SizedBox(height: 30),
 
-                        // Action Button
+                        
                         SizedBox(
                           width: double.infinity,
                           height: 50,

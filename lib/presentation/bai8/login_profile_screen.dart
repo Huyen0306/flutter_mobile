@@ -7,9 +7,9 @@ import '../widgets/custom_menu_button.dart';
 
 const Color kPrimaryColor = Color(0xFFec003f);
 
-// -----------------------------------------------------------------------------
-// MODEL
-// -----------------------------------------------------------------------------
+
+
+
 class User {
   final int id;
   final String username;
@@ -44,9 +44,9 @@ class User {
   String get fullName => '$firstName $lastName';
 }
 
-// -----------------------------------------------------------------------------
-// SCREEN
-// -----------------------------------------------------------------------------
+
+
+
 class LoginProfileScreen extends StatefulWidget {
   const LoginProfileScreen({super.key});
 
@@ -57,13 +57,13 @@ class LoginProfileScreen extends StatefulWidget {
 class _LoginProfileScreenState extends State<LoginProfileScreen> {
   final Dio _dio = Dio();
 
-  // State
+  
   bool _isLoading = false;
   User? _currentUser;
   String? _accessToken;
   String? _refreshToken;
 
-  // Controllers
+  
   final TextEditingController _usernameController = TextEditingController(
     text: 'emilys',
   );
@@ -72,9 +72,9 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
   );
   bool _obscurePassword = true;
 
-  // ---------------------------------------------------------------------------
-  // API METHODS
-  // ---------------------------------------------------------------------------
+  
+  
+  
 
   Future<void> _login() async {
     setState(() => _isLoading = true);
@@ -158,13 +158,13 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
     );
   }
 
-  // ---------------------------------------------------------------------------
-  // UI BUILD
-  // ---------------------------------------------------------------------------
+  
+  
+  
 
   @override
   Widget build(BuildContext context) {
-    // Determine screen content based on login state
+    
     final isLogged = _currentUser != null && _accessToken != null;
 
     return Scaffold(
@@ -184,7 +184,7 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
     );
   }
 
-  // --- Login View ---
+  
   Widget _buildLoginView() {
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
@@ -211,7 +211,7 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
           ),
           const SizedBox(height: 40),
 
-          // Username
+          
           const Text(
             "Tên đăng nhập",
             style: TextStyle(fontWeight: FontWeight.bold),
@@ -223,7 +223,7 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
           ),
           const SizedBox(height: 20),
 
-          // Password
+          
           const Text("Mật khẩu", style: TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
           TextField(
@@ -249,7 +249,7 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
                 height: 24,
                 width: 24,
                 child: Checkbox(
-                  value: true, // Dummy value for demonstration
+                  value: true, 
                   activeColor: kPrimaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4),
@@ -278,7 +278,7 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
 
           const SizedBox(height: 30),
 
-          // Login Button
+          
           SizedBox(
             width: double.infinity,
             height: 56,
@@ -315,7 +315,7 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
 
           const SizedBox(height: 24),
 
-          // Demo Hint
+          
           Center(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -361,7 +361,7 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
     );
   }
 
-  // --- Profile View ---
+  
   Widget _buildProfileView() {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
@@ -369,7 +369,7 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 20),
-          // Avatar & Info
+          
           Center(
             child: Column(
               children: [
@@ -403,15 +403,15 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
           ),
           const SizedBox(height: 30),
 
-          // Action Buttons
+          
           Row(
             children: [
               Expanded(
                 child: ElevatedButton(
                   onPressed: _logout,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFFF0F3), // Light Red
-                    foregroundColor: const Color(0xFFFF3B30), // Red Text
+                    backgroundColor: const Color(0xFFFFF0F3), 
+                    foregroundColor: const Color(0xFFFF3B30), 
                     elevation: 0,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
@@ -444,7 +444,7 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
           ),
           const SizedBox(height: 30),
 
-          // Individual Info Cards
+          
           _buildSingleInfoCard(
             "HỌ VÀ TÊN",
             _currentUser!.fullName,
@@ -525,9 +525,9 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
   }
 }
 
-// -----------------------------------------------------------------------------
-// HELPER WIDGETS (Shared styling)
-// -----------------------------------------------------------------------------
+
+
+
 
 InputDecoration _inputDecoration(String hint) {
   return InputDecoration(

@@ -30,7 +30,7 @@ class _TimerCounterScreenState extends State<TimerCounterScreen> {
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                // Sliding Segmented Control
+                
                 Container(
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -164,9 +164,9 @@ class _TimerCounterScreenState extends State<TimerCounterScreen> {
   }
 }
 
-// -----------------------------------------------------------------------------
-// TIMER WIDGET
-// -----------------------------------------------------------------------------
+
+
+
 class TimerWidget extends StatefulWidget {
   const TimerWidget({super.key});
 
@@ -334,9 +334,9 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 }
 
-// -----------------------------------------------------------------------------
-// COUNTER WIDGET
-// -----------------------------------------------------------------------------
+
+
+
 class CounterWidget extends StatefulWidget {
   const CounterWidget({super.key});
 
@@ -407,7 +407,7 @@ class _CounterWidgetState extends State<CounterWidget> {
           ],
         ),
         const SizedBox(height: 20),
-        // Chú thích button để giống layout ảnh hơn
+        
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
@@ -450,9 +450,9 @@ class _CounterWidgetState extends State<CounterWidget> {
   }
 }
 
-// -----------------------------------------------------------------------------
-// COLOR CHANGER WIDGET
-// -----------------------------------------------------------------------------
+
+
+
 class ColorChangerWidget extends StatefulWidget {
   const ColorChangerWidget({super.key});
 

@@ -50,13 +50,13 @@ class HomeClassroomScreen extends StatelessWidget {
       drawer: const AppDrawer(),
       body: Stack(
         children: [
-          // Content
+          
           Positioned.fill(
             child: ListView.separated(
               padding: EdgeInsets.only(
                 top:
                     MediaQuery.of(context).padding.top +
-                    80, // Space for button/header
+                    80, 
                 left: 10,
                 right: 10,
                 bottom: 10,
@@ -109,7 +109,7 @@ class CourseCard extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       child: Stack(
         children: [
-          // 1. Full Background Image
+          
           Positioned.fill(
             child: Image.asset(
               imageUrl,
@@ -119,14 +119,14 @@ class CourseCard extends StatelessWidget {
               },
             ),
           ),
-          // 2. Gradient Overlay (Semi-transparent)
+          
           Positioned.fill(
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-                  // Use opacity to let the image show through as a background
+                  
                   colors: gradientColors
                       .map((c) => c.withOpacity(0.70))
                       .toList(),
@@ -134,7 +134,7 @@ class CourseCard extends StatelessWidget {
               ),
             ),
           ),
-          // 3. Content
+          
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(

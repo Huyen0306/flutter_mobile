@@ -68,7 +68,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           const SizedBox(height: 40),
 
-          // Full Name
+          
           const Text(
             "Họ và tên",
             style: TextStyle(fontWeight: FontWeight.bold),
@@ -82,7 +82,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           const SizedBox(height: 20),
 
-          // Email
+          
           const Text("Email", style: TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
           TextFormField(
@@ -99,7 +99,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           const SizedBox(height: 20),
 
-          // Password
+          
           const Text(
             "Mật khẩu mới",
             style: TextStyle(fontWeight: FontWeight.bold),
@@ -125,7 +125,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           const SizedBox(height: 20),
 
-          // Confirm Pass
+          
           const Text(
             "Xác nhận mật khẩu",
             style: TextStyle(fontWeight: FontWeight.bold),

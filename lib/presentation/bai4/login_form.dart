@@ -53,7 +53,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           const SizedBox(height: 40),
 
-          // Username
+          
           const Text(
             "Tên người dùng",
             style: TextStyle(fontWeight: FontWeight.bold),
@@ -70,7 +70,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           const SizedBox(height: 20),
 
-          // Password
+          
           const Text("Mật khẩu", style: TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
           TextFormField(

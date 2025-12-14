@@ -8,9 +8,9 @@ import '../widgets/custom_menu_button.dart';
 
 const Color kPrimaryColor = Color(0xFFec003f);
 
-// -----------------------------------------------------------------------------
-// MODEL
-// -----------------------------------------------------------------------------
+
+
+
 class Product {
   final int id;
   final String title;
@@ -45,13 +45,13 @@ class Product {
     );
   }
 
-  // Calculate original price based on discount
+  
   double get originalPrice => price / (1 - (discountPercentage / 100));
 }
 
-// -----------------------------------------------------------------------------
-// SCREEN
-// -----------------------------------------------------------------------------
+
+
+
 class EcommerceScreen extends StatefulWidget {
   const EcommerceScreen({super.key});
 
@@ -95,7 +95,7 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
       final response = await _dio.get(
         url,
         queryParameters: {
-          'limit': 20, // Initial limit
+          'limit': 20, 
         },
       );
 
@@ -127,7 +127,7 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5FA), // Light grey background
+      backgroundColor: const Color(0xFFF5F5FA), 
       drawer: const AppDrawer(),
       body: Stack(
         children: [
@@ -137,7 +137,7 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
             ),
             child: Column(
               children: [
-                // Search Bar
+                
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,
@@ -175,7 +175,7 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
                   ),
                 ),
 
-                // Product Grid (Staggered)
+                
                 Expanded(
                   child: _isLoading
                       ? const Center(child: CircularProgressIndicator())
@@ -253,7 +253,7 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image & Badges
+            
             Expanded(
               child: Stack(
                 children: [
@@ -277,7 +277,7 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
                       ),
                     ),
                   ),
-                  // Discount Tag
+                  
                   if (product.discountPercentage > 0)
                     Positioned(
                       top: 10,
@@ -301,7 +301,7 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
                         ),
                       ),
                     ),
-                  // Favorite Button
+                  
                   Positioned(
                     top: 8,
                     right: 8,
@@ -322,13 +322,13 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
               ),
             ),
 
-            // Content
+            
             Padding(
               padding: const EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Title
+                  
                   Text(
                     product.title,
                     maxLines: 2,
@@ -342,7 +342,7 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
                   ),
                   const SizedBox(height: 4),
 
-                  // Rating
+                  
                   Row(
                     children: [
                       Icon(Iconsax.star1, color: Colors.amber[400], size: 14),
@@ -363,7 +363,7 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
                   ),
                   const SizedBox(height: 10),
 
-                  // Price & Add Button
+                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

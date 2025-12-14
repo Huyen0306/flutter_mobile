@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'ecommerce_screen.dart'; // Import to access Product model
+import 'ecommerce_screen.dart'; 
 
 const Color kPrimaryColor = Color(0xFFec003f);
 
@@ -17,9 +17,9 @@ class EcommerceDetailScreen extends StatelessWidget {
         children: [
           CustomScrollView(
             slivers: [
-              // 1. App Bar with Image
+              
               SliverAppBar(
-                expandedHeight: 450, // Taller image area
+                expandedHeight: 450, 
                 pinned: true,
                 backgroundColor: Colors.white,
                 elevation: 0,
@@ -114,7 +114,7 @@ class EcommerceDetailScreen extends StatelessWidget {
                 ),
               ),
 
-              // 2. Product Details
+              
               SliverToBoxAdapter(
                 child: Container(
                   decoration: const BoxDecoration(
@@ -135,7 +135,7 @@ class EcommerceDetailScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Handle bar
+                        
                         Center(
                           child: Container(
                             width: 50,
@@ -148,7 +148,7 @@ class EcommerceDetailScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 20),
 
-                        // Title
+                        
                         Text(
                           product.title,
                           style: const TextStyle(
@@ -160,7 +160,7 @@ class EcommerceDetailScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
 
-                        // Price & Discount Row
+                        
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -212,7 +212,7 @@ class EcommerceDetailScreen extends StatelessWidget {
 
                         const SizedBox(height: 24),
 
-                        // Rating Stats
+                        
                         Row(
                           children: [
                             Container(
@@ -247,7 +247,7 @@ class EcommerceDetailScreen extends StatelessWidget {
                             ),
                             const SizedBox(width: 16),
                             Text(
-                              '${product.stock * 3} Reviews', // Mock data
+                              '${product.stock * 3} Reviews', 
                               style: TextStyle(
                                 color: Colors.grey[600],
                                 fontWeight: FontWeight.w500,
@@ -261,7 +261,7 @@ class EcommerceDetailScreen extends StatelessWidget {
                             ),
                             const SizedBox(width: 16),
                             Text(
-                              '${product.stock * 10}+ Sold', // Mock data
+                              '${product.stock * 10}+ Sold', 
                               style: TextStyle(
                                 color: Colors.grey[600],
                                 fontWeight: FontWeight.w500,
@@ -274,7 +274,7 @@ class EcommerceDetailScreen extends StatelessWidget {
                         const Divider(height: 1),
                         const SizedBox(height: 24),
 
-                        // Description
+                        
                         const Text(
                           "Description",
                           style: TextStyle(
@@ -293,7 +293,7 @@ class EcommerceDetailScreen extends StatelessWidget {
                           ),
                         ),
 
-                        const SizedBox(height: 120), // Bottom padding
+                        const SizedBox(height: 120), 
                       ],
                     ),
                   ),
@@ -302,7 +302,7 @@ class EcommerceDetailScreen extends StatelessWidget {
             ],
           ),
 
-          // Bottom Bar
+          
           Positioned(
             bottom: 0,
             left: 0,
@@ -321,7 +321,7 @@ class EcommerceDetailScreen extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  // Cart Icon Button
+                  
                   Container(
                     width: 50,
                     height: 50,
@@ -333,7 +333,7 @@ class EcommerceDetailScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 16),
 
-                  // Add to Cart Button
+                  
                   Expanded(
                     child: SizedBox(
                       height: 56,

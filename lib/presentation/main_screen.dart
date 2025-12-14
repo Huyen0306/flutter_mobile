@@ -12,10 +12,10 @@ class MainScreen extends StatelessWidget {
       body: Builder(
         builder: (context) => Stack(
           children: [
-            // 3 phần ảnh, mỗi phần 33%
+            
             Column(
               children: [
-                // Phần 1 - 33%
+                
                 Expanded(
                   flex: 1,
                   child: Image.asset(
@@ -24,7 +24,7 @@ class MainScreen extends StatelessWidget {
                     width: double.infinity,
                   ),
                 ),
-                // Phần 2 - 33%
+                
                 Expanded(
                   flex: 1,
                   child: Image.asset(
@@ -33,7 +33,7 @@ class MainScreen extends StatelessWidget {
                     width: double.infinity,
                   ),
                 ),
-                // Phần 3 - 33%
+                
                 Expanded(
                   flex: 1,
                   child: Image.asset(
@@ -44,7 +44,7 @@ class MainScreen extends StatelessWidget {
                 ),
               ],
             ),
-            // Menu button at top left
+            
             const FloatingMenuButton(),
           ],
         ),
