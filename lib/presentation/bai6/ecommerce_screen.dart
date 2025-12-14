@@ -133,14 +133,16 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
         children: [
           Padding(
             padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top + 60,
+              top: MediaQuery.of(context).padding.top + 80,
             ),
             child: Column(
               children: [
                 // Search Bar
                 Container(
-                  padding: const EdgeInsets.all(16),
-                  color: Colors.white,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   child: TextField(
                     controller: _searchController,
                     onChanged: _onSearchChanged,
@@ -151,7 +153,7 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
                         color: kPrimaryColor,
                       ),
                       filled: true,
-                      fillColor: Colors.grey[50], // Slightly lighter background
+                      fillColor: Colors.white,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,
