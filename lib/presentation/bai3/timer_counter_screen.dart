@@ -176,7 +176,6 @@ class TimerWidget extends StatefulWidget {
 
 class _TimerWidgetState extends State<TimerWidget> {
   int _seconds = 0;
-  int _initialSeconds = 0;
   Timer? _timer;
   bool _isRunning = false;
   final TextEditingController _controller = TextEditingController();
@@ -259,7 +258,6 @@ class _TimerWidgetState extends State<TimerWidget> {
                 onChanged: (value) {
                   setState(() {
                     _seconds = int.tryParse(value) ?? 0;
-                    _initialSeconds = _seconds;
                   });
                 },
               ),
