@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:iconsax/iconsax.dart';
 import 'post_detail_screen.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/custom_menu_button.dart';
