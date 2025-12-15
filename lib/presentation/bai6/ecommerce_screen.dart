@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:iconsax/iconsax.dart';
 import 'dart:async';
 import 'ecommerce_detail_screen.dart';
+import 'cart_screen.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/custom_menu_button.dart';
 
@@ -58,7 +59,12 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
   bool _isLoading = true;
   String? _error;
   Timer? _debounce;
+
   final TextEditingController _searchController = TextEditingController();
+  List<Map<String, dynamic>> _cartItems = [];
+
+  int get _cartItemCount =>
+      _cartItems.fold(0, (sum, item) => sum + (item['quantity'] as int));
 
   @override
   void initState() {
@@ -130,35 +136,77 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
                     horizontal: 16,
                     vertical: 8,
                   ),
-                  child: TextField(
-                    controller: _searchController,
-                    onChanged: _onSearchChanged,
-                    decoration: InputDecoration(
-                      hintText: 'Tìm kiếm sản phẩm...',
-                      hintStyle: TextStyle(color: Colors.grey[400]),
-                      prefixIcon: const Icon(
-                        Iconsax.search_normal,
-                        color: kPrimaryColor,
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide.none,
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide.none,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: const BorderSide(
-                          color: kPrimaryColor,
-                          width: 1,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _searchController,
+                          onChanged: _onSearchChanged,
+                          decoration: InputDecoration(
+                            hintText: 'Tìm kiếm sản phẩm...',
+                            hintStyle: TextStyle(color: Colors.grey[400]),
+                            prefixIcon: const Icon(
+                              Iconsax.search_normal,
+                              color: kPrimaryColor,
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: BorderSide.none,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: const BorderSide(
+                                color: kPrimaryColor,
+                                width: 1,
+                              ),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 0,
+                            ),
+                          ),
                         ),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                    ),
+                      const SizedBox(width: 12),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  CartScreen(cartItemIds: _cartItems),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.04),
+                                blurRadius: 16,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Badge(
+                            label: Text('$_cartItemCount'),
+                            backgroundColor: kPrimaryColor,
+                            child: const Icon(
+                              Iconsax.shopping_cart,
+                              color: kPrimaryColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 
@@ -220,7 +268,55 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EcommerceDetailScreen(product: product),
+            builder: (context) {
+              final isAdded = _cartItems.any(
+                (item) => item['id'] == product.id,
+              );
+              final cartQuantity = _cartItems
+                  .where((item) => item['id'] == product.id)
+                  .fold(0, (sum, item) => sum + (item['quantity'] as int));
+
+              return EcommerceDetailScreen(
+                product: product,
+                cartItemCount: _cartItemCount,
+                isAdded: isAdded,
+                cartItems: _cartItems,
+                onAddToCart: () {
+                  setState(() {
+                    final index = _cartItems.indexWhere(
+                      (item) => item['id'] == product.id,
+                    );
+                    if (index != -1) {
+                      _cartItems[index]['quantity'] =
+                          (_cartItems[index]['quantity'] as int) + 1;
+                    } else {
+                      _cartItems.add({'id': product.id, 'quantity': 1});
+                    }
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Đã thêm ${product.title} vào giỏ hàng'),
+                      duration: const Duration(seconds: 1),
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                },
+                onRemoveFromCart: () {
+                  setState(() {
+                    _cartItems.removeWhere((item) => item['id'] == product.id);
+                  });
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Đã xóa khỏi giỏ hàng'),
+                      duration: Duration(seconds: 1),
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                },
+              );
+            },
           ),
         );
       },
@@ -370,16 +466,42 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
                             ),
                         ],
                       ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: kPrimaryColor,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Icon(
-                          Iconsax.add,
-                          color: Colors.white,
-                          size: 20,
+
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            final index = _cartItems.indexWhere(
+                              (item) => item['id'] == product.id,
+                            );
+                            if (index != -1) {
+                              _cartItems[index]['quantity'] =
+                                  (_cartItems[index]['quantity'] as int) + 1;
+                            } else {
+                              _cartItems.add({'id': product.id, 'quantity': 1});
+                            }
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Đã thêm ${product.title} vào giỏ hàng',
+                              ),
+                              duration: const Duration(seconds: 1),
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: kPrimaryColor,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Iconsax.add,
+                            color: Colors.white,
+                            size: 20,
+                          ),
                         ),
                       ),
                     ],

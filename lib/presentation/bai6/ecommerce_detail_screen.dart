@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'ecommerce_screen.dart'; 
+import 'ecommerce_screen.dart';
+import 'cart_screen.dart';
 
 const Color kPrimaryColor = Color(0xFFec003f);
 
 class EcommerceDetailScreen extends StatelessWidget {
   final Product product;
+  final int cartItemCount;
+  final bool isAdded;
+  final VoidCallback onAddToCart;
+  final VoidCallback onRemoveFromCart;
+  final List<Map<String, dynamic>> cartItems;
 
-  const EcommerceDetailScreen({super.key, required this.product});
+  const EcommerceDetailScreen({
+    super.key,
+    required this.product,
+    required this.cartItemCount,
+    required this.isAdded,
+    required this.onAddToCart,
+    required this.onRemoveFromCart,
+    required this.cartItems,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +31,8 @@ class EcommerceDetailScreen extends StatelessWidget {
         children: [
           CustomScrollView(
             slivers: [
-              
               SliverAppBar(
-                expandedHeight: 450, 
+                expandedHeight: 450,
                 pinned: true,
                 backgroundColor: Colors.white,
                 elevation: 0,
@@ -46,27 +59,41 @@ class EcommerceDetailScreen extends StatelessWidget {
                   onPressed: () => Navigator.pop(context),
                 ),
                 actions: [
-                  IconButton(
-                    icon: Container(
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              CartScreen(cartItemIds: cartItems),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 8),
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.9),
                         shape: BoxShape.circle,
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 4,
-                            offset: const Offset(0, 2),
+                            offset: Offset(0, 2),
                           ),
                         ],
                       ),
-                      child: const Icon(
-                        Iconsax.heart,
-                        color: Colors.black,
-                        size: 20,
+                      child: Badge(
+                        label: Text('$cartItemCount'),
+                        backgroundColor: kPrimaryColor,
+                        isLabelVisible: cartItemCount > 0,
+                        child: const Icon(
+                          Iconsax.shopping_cart,
+                          color: Colors.black,
+                          size: 20,
+                        ),
                       ),
                     ),
-                    onPressed: () {},
                   ),
                   IconButton(
                     icon: Container(
@@ -114,7 +141,6 @@ class EcommerceDetailScreen extends StatelessWidget {
                 ),
               ),
 
-              
               SliverToBoxAdapter(
                 child: Container(
                   decoration: const BoxDecoration(
@@ -122,20 +148,12 @@ class EcommerceDetailScreen extends StatelessWidget {
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(30),
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 10,
-                        offset: Offset(0, -5),
-                      ),
-                    ],
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(24),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        
                         Center(
                           child: Container(
                             width: 50,
@@ -148,7 +166,6 @@ class EcommerceDetailScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 20),
 
-                        
                         Text(
                           product.title,
                           style: const TextStyle(
@@ -160,7 +177,6 @@ class EcommerceDetailScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
 
-                        
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -212,7 +228,6 @@ class EcommerceDetailScreen extends StatelessWidget {
 
                         const SizedBox(height: 24),
 
-                        
                         Row(
                           children: [
                             Container(
@@ -247,7 +262,7 @@ class EcommerceDetailScreen extends StatelessWidget {
                             ),
                             const SizedBox(width: 16),
                             Text(
-                              '${product.stock * 3} Reviews', 
+                              '${product.stock * 3} Reviews',
                               style: TextStyle(
                                 color: Colors.grey[600],
                                 fontWeight: FontWeight.w500,
@@ -261,7 +276,7 @@ class EcommerceDetailScreen extends StatelessWidget {
                             ),
                             const SizedBox(width: 16),
                             Text(
-                              '${product.stock * 10}+ Sold', 
+                              '${product.stock * 10}+ Sold',
                               style: TextStyle(
                                 color: Colors.grey[600],
                                 fontWeight: FontWeight.w500,
@@ -274,7 +289,6 @@ class EcommerceDetailScreen extends StatelessWidget {
                         const Divider(height: 1),
                         const SizedBox(height: 24),
 
-                        
                         const Text(
                           "Description",
                           style: TextStyle(
@@ -293,7 +307,7 @@ class EcommerceDetailScreen extends StatelessWidget {
                           ),
                         ),
 
-                        const SizedBox(height: 120), 
+                        const SizedBox(height: 120),
                       ],
                     ),
                   ),
@@ -302,7 +316,6 @@ class EcommerceDetailScreen extends StatelessWidget {
             ],
           ),
 
-          
           Positioned(
             bottom: 0,
             left: 0,
@@ -321,7 +334,6 @@ class EcommerceDetailScreen extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  
                   Container(
                     width: 50,
                     height: 50,
@@ -333,31 +345,38 @@ class EcommerceDetailScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 16),
 
-                  
                   Expanded(
                     child: SizedBox(
                       height: 56,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: isAdded ? onRemoveFromCart : onAddToCart,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: kPrimaryColor,
+                          backgroundColor: isAdded
+                              ? Colors.red[50]
+                              : kPrimaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
+                            side: isAdded
+                                ? const BorderSide(color: Colors.red)
+                                : BorderSide.none,
                           ),
                           elevation: 0,
                           shadowColor: Colors.transparent,
                         ),
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Iconsax.shopping_cart, color: Colors.white),
-                            SizedBox(width: 10),
+                            Icon(
+                              isAdded ? Iconsax.trash : Iconsax.shopping_cart,
+                              color: isAdded ? Colors.red : Colors.white,
+                            ),
+                            const SizedBox(width: 10),
                             Text(
-                              "Add to Cart",
+                              isAdded ? "Remove from Cart" : "Add to Cart",
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: isAdded ? Colors.red : Colors.white,
                               ),
                             ),
                           ],
