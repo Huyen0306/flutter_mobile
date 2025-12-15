@@ -519,85 +519,111 @@ class _CounterWidgetState extends State<CounterWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text(
-          'Giá trị hiện tại:',
-          style: TextStyle(fontSize: 18, color: Colors.black54),
-        ),
-        const SizedBox(height: 20),
-        Text(
-          '$_count',
-          style: const TextStyle(
-            fontSize: 80,
-            fontWeight: FontWeight.bold,
-            color: kPrimaryColor,
-          ),
-        ),
-        const SizedBox(height: 80),
-        Row(
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildCircleButton(
-              icon: Iconsax.minus,
-              onTap: _decrement,
-              color: kPrimaryColor,
-            ),
-            const SizedBox(width: 30),
-            _buildCircleButton(
-              icon: Icons.refresh,
-              onTap: _reset,
-              color: Colors.grey,
-            ),
-            const SizedBox(width: 30),
-            _buildCircleButton(
-              icon: Iconsax.add,
-              onTap: _increment,
-              color: kPrimaryColor,
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Column(
+                children: [
+                  const Text(
+                    'Đếm số lượng',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1,
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  Container(
+                    width: 180,
+                    height: 180,
+                    child: Center(
+                      child: Text(
+                        '$_count',
+                        style: const TextStyle(
+                          fontSize: 72,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildControlBtn(
+                        icon: Iconsax.minus,
+                        onTap: _decrement,
+                        color: Colors.orange,
+                        label: 'Giảm',
+                      ),
+                      const SizedBox(width: 20),
+                      _buildControlBtn(
+                        icon: Iconsax.refresh,
+                        onTap: _reset,
+                        color: Colors.grey,
+                        label: 'Đặt lại',
+                      ),
+                      const SizedBox(width: 20),
+                      _buildControlBtn(
+                        icon: Iconsax.add,
+                        onTap: _increment,
+                        color: AppColors.primary,
+                        label: 'Tăng',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),
-        const SizedBox(height: 20),
-
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            SizedBox(width: 60, child: Center(child: Text("Giảm"))),
-            SizedBox(width: 30),
-            SizedBox(width: 60, child: Center(child: Text("Đặt lại"))),
-            SizedBox(width: 30),
-            SizedBox(width: 60, child: Center(child: Text("Tăng"))),
-          ],
-        ),
-      ],
+      ),
     );
   }
 
-  Widget _buildCircleButton({
+  Widget _buildControlBtn({
     required IconData icon,
     required VoidCallback onTap,
     required Color color,
+    required String label,
   }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(50),
-      child: Container(
-        width: 60,
-        height: 60,
-        decoration: BoxDecoration(
-          color: color,
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: color.withOpacity(0.3),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
+    return Column(
+      children: [
+        InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(20),
+          child: Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: color.withOpacity(0.3), width: 1.5),
             ),
-          ],
+            child: Icon(icon, color: color, size: 28),
+          ),
         ),
-        child: Icon(icon, color: Colors.white, size: 30),
-      ),
+        const SizedBox(height: 8),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey[600],
+          ),
+        ),
+      ],
     );
   }
 }
