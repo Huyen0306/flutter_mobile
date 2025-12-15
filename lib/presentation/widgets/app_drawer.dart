@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'package:iconsax/iconsax.dart';
 import '../../constants/app_colors.dart';
 import '../main_screen.dart';
@@ -29,52 +30,67 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: [
           // Header
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  AppColors.primary,
-                  AppColors.white,
-                  AppColors.primary.withOpacity(0.5),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-              ),
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(30),
             ),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  radius: 30,
-                  backgroundColor: Colors.white.withOpacity(0.2),
-                  child: const Icon(
-                    Iconsax.user,
-                    color: AppColors.text,
-                    size: 30,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.textMuted,
+                    AppColors.white.withOpacity(0.8),
+                    AppColors.primary.withOpacity(0.8),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 50,
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const CircleAvatar(
+                          radius: 30,
+                          backgroundColor: Colors.white,
+                          backgroundImage: AssetImage('assets/images/user.png'),
+                        ),
+                      ),
+                      const SizedBox(width: 15),
+                      const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Nguyễn Thị Huyền",
+                            style: TextStyle(
+                              color: AppColors.text,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "Welcome back",
+                            style: TextStyle(
+                              color: AppColors.text,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 15),
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Hello, User",
-                      style: TextStyle(
-                        color: AppColors.text,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      "Welcome back",
-                      style: TextStyle(color: AppColors.text, fontSize: 14),
-                    ),
-                  ],
-                ),
-              ],
+              ),
             ),
           ),
 
@@ -204,11 +220,11 @@ class AppDrawer extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           border: Border(
             left: BorderSide(
-              color: const Color(0xFFec003f).withOpacity(0.5),
+              color: const Color(0xFFec003f),
               width: 1.8 * 1.618,
             ),
             bottom: BorderSide(
-              color: const Color(0xFFec003f).withOpacity(0.5),
+              color: const Color(0xFFec003f),
               width: 1.8 * 1.618,
             ),
           ),
@@ -238,7 +254,7 @@ class AppDrawer extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                color: const Color(0xFFec003f).withOpacity(0.5),
+                color: const Color(0xFFec003f),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(
