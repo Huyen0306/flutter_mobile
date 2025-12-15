@@ -2,49 +2,79 @@ import 'package:flutter/material.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/custom_menu_button.dart';
 
-class HomeClassroomScreen extends StatelessWidget {
+class HomeClassroomScreen extends StatefulWidget {
   const HomeClassroomScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> courses = [
-      {
-        'title': 'XML và ứng dụng - Nhóm 1',
-        'code': '2025-2026.1.TIN4583.001',
-        'students': '58 học viên',
-        'imageUrl': 'assets/images/background_classroom_1.png',
-        'gradientColors': [const Color(0xFF333333), const Color(0xFF454545)],
-      },
-      {
-        'title': 'Lập trình Mobile Đa Nền Tảng',
-        'code': '2025-2026.1.TIN4403.006',
-        'students': '55 học viên',
-        'imageUrl': 'assets/images/background_classroom_2.png',
-        'gradientColors': [const Color(0xFF37474F), const Color(0xFF455A64)],
-      },
-      {
-        'title': 'Phát triển Ứng dụng Web',
-        'code': '2025-2026.1.TIN4403.005',
-        'students': '52 học viên',
-        'imageUrl': 'assets/images/background_classroom_3.png',
-        'gradientColors': [const Color(0xFF263238), const Color(0xFF37474F)],
-      },
-      {
-        'title': 'Nhập môn Trí tuệ Nhân tạo',
-        'code': '2025-2026.1.TIN4403.004',
-        'students': '50 học viên',
-        'imageUrl': 'assets/images/background_classroom_4.png',
-        'gradientColors': [const Color(0xFF1565C0), const Color(0xFF1976D2)],
-      },
-      {
-        'title': 'Cấu trúc Dữ liệu và Giải thuật',
-        'code': '2025-2026.1.TIN4403.003',
-        'students': '52 học viên',
-        'imageUrl': 'assets/images/background_classroom_1.png',
-        'gradientColors': [const Color(0xFF212121), const Color(0xFF424242)],
-      },
-    ];
+  State<HomeClassroomScreen> createState() => _HomeClassroomScreenState();
+}
 
+class _HomeClassroomScreenState extends State<HomeClassroomScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  final List<Map<String, dynamic>> _allCourses = [
+    {
+      'title': 'XML và ứng dụng - Nhóm 1',
+      'code': '2025-2026.1.TIN4583.001',
+      'students': '58 học viên',
+      'imageUrl': 'assets/images/background_classroom_1.png',
+      'gradientColors': [const Color(0xFF333333), const Color(0xFF454545)],
+    },
+    {
+      'title': 'Lập trình Mobile Đa Nền Tảng',
+      'code': '2025-2026.1.TIN4403.006',
+      'students': '55 học viên',
+      'imageUrl': 'assets/images/background_classroom_2.png',
+      'gradientColors': [const Color(0xFF37474F), const Color(0xFF455A64)],
+    },
+    {
+      'title': 'Phát triển Ứng dụng Web',
+      'code': '2025-2026.1.TIN4403.005',
+      'students': '52 học viên',
+      'imageUrl': 'assets/images/background_classroom_3.png',
+      'gradientColors': [const Color(0xFF263238), const Color(0xFF37474F)],
+    },
+    {
+      'title': 'Nhập môn Trí tuệ Nhân tạo',
+      'code': '2025-2026.1.TIN4403.004',
+      'students': '50 học viên',
+      'imageUrl': 'assets/images/background_classroom_4.png',
+      'gradientColors': [const Color(0xFF1565C0), const Color(0xFF1976D2)],
+    },
+    {
+      'title': 'Cấu trúc Dữ liệu và Giải thuật',
+      'code': '2025-2026.1.TIN4403.003',
+      'students': '52 học viên',
+      'imageUrl': 'assets/images/background_classroom_1.png',
+      'gradientColors': [const Color(0xFF212121), const Color(0xFF424242)],
+    },
+  ];
+
+  List<Map<String, dynamic>> _filteredCourses = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _filteredCourses = _allCourses;
+  }
+
+  void _onSearchChanged(String query) {
+    setState(() {
+      _filteredCourses = _allCourses
+          .where(
+            (course) =>
+                course['title'].toString().toLowerCase().contains(
+                  query.toLowerCase(),
+                ) ||
+                course['code'].toString().toLowerCase().contains(
+                  query.toLowerCase(),
+                ),
+          )
+          .toList();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       drawer: const AppDrawer(activeIndex: 1),
@@ -58,10 +88,10 @@ class HomeClassroomScreen extends StatelessWidget {
                 right: 10,
                 bottom: 10,
               ),
-              itemCount: courses.length,
+              itemCount: _filteredCourses.length,
               separatorBuilder: (context, index) => const SizedBox(height: 10),
               itemBuilder: (context, index) {
-                final course = courses[index];
+                final course = _filteredCourses[index];
                 return CourseCard(
                   title: course['title'],
                   code: course['code'],
@@ -72,7 +102,10 @@ class HomeClassroomScreen extends StatelessWidget {
               },
             ),
           ),
-          const FloatingMenuButton(),
+          FloatingMenuButton(
+            onSearchChanged: _onSearchChanged,
+            searchController: _searchController,
+          ),
         ],
       ),
     );
