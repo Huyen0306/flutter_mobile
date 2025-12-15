@@ -38,7 +38,8 @@ class AppDrawer extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.textMuted,
+                    AppColors.primary.withOpacity(0.01),
+
                     AppColors.white.withOpacity(0.8),
                     AppColors.primary.withOpacity(0.8),
                   ],
@@ -133,7 +134,7 @@ class AppDrawer extends StatelessWidget {
                   final item = entry.value;
                   return _buildDrawerItem(
                     icon: item['icon'] as IconData,
-                    title: item['title'] as String,
+                    title: 'Bài ${index + 1}: ${item['title']}',
                     isActive: activeIndex == index + 1,
                     onTap: () {
                       if (activeIndex != index + 1) {
@@ -219,6 +220,33 @@ class AppDrawer extends StatelessWidget {
         ),
       );
     }
+
+    // Define active/inactive colors
+    final backgroundColor = isActive ? const Color(0xFFec003f) : Colors.white;
+    final iconContainerColor = isActive
+        ? Colors.white
+        : const Color(0xFFec003f).withOpacity(0.1);
+    final iconColor = isActive
+        ? const Color(0xFFec003f)
+        : const Color(0xFFec003f);
+    final textColor = isActive ? Colors.white : Colors.black87;
+    final arrowContainerColor = isActive
+        ? Colors.white.withOpacity(0.3)
+        : AppColors.textMuted.withOpacity(0.08);
+    final arrowColor = isActive ? Colors.white : AppColors.primary;
+    final border = isActive
+        ? null
+        : Border(
+            left: BorderSide(
+              color: const Color(0xFFec003f),
+              width: 1.8 * 1.618,
+            ),
+            bottom: BorderSide(
+              color: const Color(0xFFec003f),
+              width: 1.8 * 1.618,
+            ),
+          );
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -228,39 +256,28 @@ class AppDrawer extends StatelessWidget {
         ), // Added margin to match list spacing
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: isActive
-              ? const Color(0xFFec003f).withOpacity(0.05)
-              : Colors.white, // Highlight active item subtly
+          color: backgroundColor,
           borderRadius: BorderRadius.circular(12),
-          border: Border(
-            left: BorderSide(
-              color: const Color(0xFFec003f),
-              width: 1.8 * 1.618,
-            ),
-            bottom: BorderSide(
-              color: const Color(0xFFec003f),
-              width: 1.8 * 1.618,
-            ),
-          ),
+          border: border,
         ),
         child: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: const Color(0xFFec003f).withOpacity(0.1),
+                color: iconContainerColor,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(icon, color: const Color(0xFFec003f), size: 20),
+              child: Icon(icon, color: iconColor, size: 20),
             ),
             const SizedBox(width: 14),
             Expanded(
               child: Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
-                  color: Colors.black87,
+                  color: textColor,
                 ),
               ),
             ),
@@ -268,14 +285,10 @@ class AppDrawer extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                color: AppColors.textMuted.withOpacity(0.08),
+                color: arrowContainerColor,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Icon(
-                Iconsax.arrow_right_1,
-                color: AppColors.primary,
-                size: 16,
-              ),
+              child: Icon(Iconsax.arrow_right_1, color: arrowColor, size: 16),
             ),
           ],
         ),
