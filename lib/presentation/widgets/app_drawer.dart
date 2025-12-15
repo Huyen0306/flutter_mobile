@@ -116,10 +116,24 @@ class AppDrawer extends StatelessWidget {
                   },
                   isActive: activeIndex == 0,
                 ),
-                ...List.generate(8, (index) {
+                ...[
+                  {'title': 'Classroom', 'icon': Iconsax.book},
+                  {
+                    'title': 'Welcome Charlie',
+                    'icon': Iconsax.message_favorite,
+                  },
+                  {'title': 'Timer & Counter', 'icon': Iconsax.timer_1},
+                  {'title': 'Login & Register', 'icon': Iconsax.login},
+                  {'title': 'BMI & Feedback', 'icon': Iconsax.health},
+                  {'title': 'E-Commerce', 'icon': Iconsax.shopping_cart},
+                  {'title': 'News API', 'icon': Iconsax.global},
+                  {'title': 'Login & Profile', 'icon': Iconsax.profile_circle},
+                ].asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final item = entry.value;
                   return _buildDrawerItem(
-                    icon: Iconsax.task_square,
-                    title: "Bài tập ${index + 1}",
+                    icon: item['icon'] as IconData,
+                    title: item['title'] as String,
                     isActive: activeIndex == index + 1,
                     onTap: () {
                       if (activeIndex != index + 1) {
@@ -254,12 +268,12 @@ class AppDrawer extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                color: const Color(0xFFec003f),
+                color: AppColors.textMuted.withOpacity(0.08),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(
                 Iconsax.arrow_right_1,
-                color: Colors.white,
+                color: AppColors.primary,
                 size: 16,
               ),
             ),
