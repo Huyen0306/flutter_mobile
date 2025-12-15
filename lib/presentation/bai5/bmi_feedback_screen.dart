@@ -3,6 +3,9 @@ import 'package:iconsax/iconsax.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/custom_menu_button.dart';
 
+import 'package:confetti/confetti.dart';
+import '../../constants/app_colors.dart';
+
 const Color kPrimaryColor = Color(0xFFec003f);
 
 class BmiFeedbackScreen extends StatefulWidget {
@@ -20,59 +23,62 @@ class _BmiFeedbackScreenState extends State<BmiFeedbackScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       drawer: const AppDrawer(activeIndex: 5),
-      body: Stack(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top + 60,
-            ),
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).padding.top + 60,
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
 
-                Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: _buildTabButton(
-                          index: 0,
-                          label: 'Tính BMI',
-                          isSelected: _selectedIndex == 0,
-                          onTap: () => setState(() => _selectedIndex = 0),
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: _buildTabButton(
+                            index: 0,
+                            label: 'Tính BMI',
+                            isSelected: _selectedIndex == 0,
+                            onTap: () => setState(() => _selectedIndex = 0),
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: _buildTabButton(
-                          index: 1,
-                          label: 'Gửi Phản hồi',
-                          isSelected: _selectedIndex == 1,
-                          onTap: () => setState(() => _selectedIndex = 1),
+                        Expanded(
+                          child: _buildTabButton(
+                            index: 1,
+                            label: 'Gửi Phản hồi',
+                            isSelected: _selectedIndex == 1,
+                            onTap: () => setState(() => _selectedIndex = 1),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: _selectedIndex == 0
-                        ? const BmiCalculatorWidget()
-                        : const FeedbackWidget(),
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: _selectedIndex == 0
+                          ? const BmiCalculatorWidget()
+                          : const FeedbackWidget(),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          const FloatingMenuButton(),
-        ],
+            const FloatingMenuButton(),
+          ],
+        ),
       ),
     );
   }
@@ -233,9 +239,29 @@ class _BmiCalculatorWidgetState extends State<BmiCalculatorWidget> {
   double? _bmi;
   String _message = '';
 
+  late ConfettiController _confettiController;
+
+  @override
+  void initState() {
+    super.initState();
+    _confettiController = ConfettiController(
+      duration: const Duration(seconds: 3),
+    );
+  }
+
+  @override
+  void dispose() {
+    _confettiController.dispose();
+    _heightController.dispose();
+    _weightController.dispose();
+    super.dispose();
+  }
+
   void _calculateBMI() {
+    FocusScope.of(context).unfocus();
     if (_formKey.currentState!.validate()) {
-      double height = double.parse(_heightController.text);
+      double height =
+          double.parse(_heightController.text) / 100; // Convert cm to m
       double weight = double.parse(_weightController.text);
 
       setState(() {
@@ -251,7 +277,150 @@ class _BmiCalculatorWidgetState extends State<BmiCalculatorWidget> {
           _message = 'Béo phì - Cần chế độ ăn kiêng!';
         }
       });
+
+      _confettiController.play();
+      _showCompletionDialog();
     }
+  }
+
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black54,
+      builder: (context) => Stack(
+        alignment: Alignment.center,
+        children: [
+          Dialog(
+            backgroundColor: Colors.transparent,
+            insetPadding: const EdgeInsets.all(20),
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.withOpacity(0.1),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.close,
+                            size: 20,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+
+                    // Animated Icon or Image
+                    SizedBox(
+                      width: 400,
+                      height: 200,
+                      child: Image.asset(
+                        'assets/images/happy.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Kết quả BMI',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
+                        decoration: TextDecoration.none,
+                        fontFamily: '.SF UI Display',
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+
+                    Text(
+                      'Chỉ số BMI: ${_bmi!.toStringAsFixed(2)}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: _getResultColor(),
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.none,
+                        fontFamily: '.SF UI Text',
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      _message,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: AppColors.textMuted,
+                        decoration: TextDecoration.none,
+                        fontFamily: '.SF UI Text',
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: const Text(
+                          'OK',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: ConfettiWidget(
+              confettiController: _confettiController,
+              blastDirectionality: BlastDirectionality.explosive,
+              shouldLoop: false,
+              emissionFrequency: 0.05,
+              numberOfParticles: 50,
+              maxBlastForce: 60,
+              minBlastForce: 10,
+              gravity: 0.1,
+              colors: const [
+                Colors.green,
+                Colors.blue,
+                Colors.pink,
+                Colors.orange,
+                Colors.purple,
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Color _getResultColor() {
@@ -292,7 +461,7 @@ class _BmiCalculatorWidgetState extends State<BmiCalculatorWidget> {
             ),
             const SizedBox(height: 30),
             CustomTextField(
-              label: 'Chiều cao (m)',
+              label: 'Chiều cao (cm)',
               icon: Iconsax.ruler,
               controller: _heightController,
               keyboardType: const TextInputType.numberWithOptions(
@@ -365,18 +534,170 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
   final _nameController = TextEditingController();
   final _feedbackController = TextEditingController();
 
+  late ConfettiController _confettiController;
+
+  @override
+  void initState() {
+    super.initState();
+    _confettiController = ConfettiController(
+      duration: const Duration(seconds: 3),
+    );
+  }
+
+  @override
+  void dispose() {
+    _confettiController.dispose();
+    _nameController.dispose();
+    _feedbackController.dispose();
+    super.dispose();
+  }
+
   void _sendFeedback() {
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Cảm ơn ${_nameController.text} đã gửi đánh giá $_rating sao!',
-          ),
-          backgroundColor: Colors.green,
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
+      _confettiController.play();
+      _showCompletionDialog();
     }
+  }
+
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black54,
+      builder: (context) => Stack(
+        alignment: Alignment.center,
+        children: [
+          Dialog(
+            backgroundColor: Colors.transparent,
+            insetPadding: const EdgeInsets.all(20),
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.withOpacity(0.1),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.close,
+                            size: 20,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+
+                    // Animated Icon or Image
+                    SizedBox(
+                      width: 400,
+                      height: 200,
+                      child: Image.asset(
+                        'assets/images/happy.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Cảm ơn bạn!',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primary,
+                        decoration: TextDecoration.none,
+                        fontFamily: '.SF UI Display',
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+
+                    Text(
+                      'Chúng tôi đã nhận được đánh giá $_rating sao của bạn.',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: AppColors.text,
+                        height: 1.5,
+                        decoration: TextDecoration.none,
+                        fontFamily: '.SF UI Text',
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Ý kiến của bạn giúp chúng tôi cải thiện tốt hơn!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: AppColors.textMuted,
+                        decoration: TextDecoration.none,
+                        fontFamily: '.SF UI Text',
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: const Text(
+                          'Tuyệt vời!',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: ConfettiWidget(
+              confettiController: _confettiController,
+              blastDirectionality: BlastDirectionality.explosive,
+              shouldLoop: false,
+              emissionFrequency: 0.05,
+              numberOfParticles: 50,
+              maxBlastForce: 60,
+              minBlastForce: 10,
+              gravity: 0.1,
+              colors: const [
+                Colors.green,
+                Colors.blue,
+                Colors.pink,
+                Colors.orange,
+                Colors.purple,
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
