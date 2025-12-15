@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:confetti/confetti.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:mobile_test/constants/app_colors.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/custom_menu_button.dart';
 
@@ -21,144 +23,147 @@ class _TimerCounterScreenState extends State<TimerCounterScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       drawer: const AppDrawer(activeIndex: 3),
-      body: Stack(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top + 60,
-            ),
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).padding.top + 60,
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
 
-                Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(25),
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => setState(() => _selectedIndex = 0),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              decoration: BoxDecoration(
+                                color: _selectedIndex == 0
+                                    ? Colors.white
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.circular(25),
+                                boxShadow: _selectedIndex == 0
+                                    ? [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 4,
+                                          offset: const Offset(0, 2),
+                                        ),
+                                      ]
+                                    : [],
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Timer',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: _selectedIndex == 0
+                                        ? kPrimaryColor
+                                        : Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => setState(() => _selectedIndex = 1),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              decoration: BoxDecoration(
+                                color: _selectedIndex == 1
+                                    ? Colors.white
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.circular(25),
+                                boxShadow: _selectedIndex == 1
+                                    ? [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 4,
+                                          offset: const Offset(0, 2),
+                                        ),
+                                      ]
+                                    : [],
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Counter',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: _selectedIndex == 1
+                                        ? kPrimaryColor
+                                        : Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => setState(() => _selectedIndex = 2),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              decoration: BoxDecoration(
+                                color: _selectedIndex == 2
+                                    ? Colors.white
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.circular(25),
+                                boxShadow: _selectedIndex == 2
+                                    ? [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.1),
+                                          blurRadius: 4,
+                                          offset: const Offset(0, 2),
+                                        ),
+                                      ]
+                                    : [],
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Màu sắc',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: _selectedIndex == 2
+                                        ? kPrimaryColor
+                                        : Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () => setState(() => _selectedIndex = 0),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            decoration: BoxDecoration(
-                              color: _selectedIndex == 0
-                                  ? Colors.white
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(25),
-                              boxShadow: _selectedIndex == 0
-                                  ? [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
-                                        blurRadius: 4,
-                                        offset: const Offset(0, 2),
-                                      ),
-                                    ]
-                                  : [],
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Timer',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: _selectedIndex == 0
-                                      ? kPrimaryColor
-                                      : Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () => setState(() => _selectedIndex = 1),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            decoration: BoxDecoration(
-                              color: _selectedIndex == 1
-                                  ? Colors.white
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(25),
-                              boxShadow: _selectedIndex == 1
-                                  ? [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
-                                        blurRadius: 4,
-                                        offset: const Offset(0, 2),
-                                      ),
-                                    ]
-                                  : [],
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Counter',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: _selectedIndex == 1
-                                      ? kPrimaryColor
-                                      : Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () => setState(() => _selectedIndex = 2),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            decoration: BoxDecoration(
-                              color: _selectedIndex == 2
-                                  ? Colors.white
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(25),
-                              boxShadow: _selectedIndex == 2
-                                  ? [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.1),
-                                        blurRadius: 4,
-                                        offset: const Offset(0, 2),
-                                      ),
-                                    ]
-                                  : [],
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Màu sắc',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: _selectedIndex == 2
-                                      ? kPrimaryColor
-                                      : Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: _selectedIndex == 0
+                        ? const TimerWidget()
+                        : _selectedIndex == 1
+                        ? const CounterWidget()
+                        : const ColorChangerWidget(),
                   ),
-                ),
-                const SizedBox(height: 20),
-                Expanded(
-                  child: _selectedIndex == 0
-                      ? const TimerWidget()
-                      : _selectedIndex == 1
-                      ? const CounterWidget()
-                      : const ColorChangerWidget(),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          const FloatingMenuButton(),
-        ],
+            const FloatingMenuButton(),
+          ],
+        ),
       ),
     );
   }
@@ -176,8 +181,18 @@ class _TimerWidgetState extends State<TimerWidget> {
   Timer? _timer;
   bool _isRunning = false;
   final TextEditingController _controller = TextEditingController();
+  late ConfettiController _confettiController;
+
+  @override
+  void initState() {
+    super.initState();
+    _confettiController = ConfettiController(
+      duration: const Duration(seconds: 3),
+    );
+  }
 
   void _startTimer() {
+    FocusScope.of(context).unfocus();
     if (_seconds > 0 && !_isRunning) {
       setState(() {
         _isRunning = true;
@@ -189,9 +204,151 @@ class _TimerWidgetState extends State<TimerWidget> {
           });
         } else {
           _stopTimer();
+          _controller.clear();
+          _confettiController.play();
+          _showCompletionDialog();
         }
       });
     }
+  }
+
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black54,
+      builder: (context) => Stack(
+        alignment: Alignment.center,
+        children: [
+          Dialog(
+            backgroundColor: Colors.transparent,
+            insetPadding: const EdgeInsets.all(20),
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.close,
+                          size: 20,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+
+                  // Animated Icon or Image
+                  Container(
+                    width: 400,
+                    height: 200,
+                    child: Image.asset(
+                      'assets/images/happy.png',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
+                  const Text(
+                    'Chúc mừng!',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary,
+                      decoration: TextDecoration.none,
+                      fontFamily: '.SF UI Display',
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  const Text(
+                    'Bạn đã hoàn thành đếm ngược.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: AppColors.text,
+                      height: 1.5,
+                      decoration: TextDecoration.none,
+                      fontFamily: '.SF UI Text',
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Hãy tiếp tục phát huy nhé!',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: AppColors.textMuted,
+                      decoration: TextDecoration.none,
+                      fontFamily: '.SF UI Text',
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        elevation: 0,
+                      ),
+                      child: const Text(
+                        'Tuyệt vời!',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: ConfettiWidget(
+              confettiController: _confettiController,
+              blastDirectionality: BlastDirectionality.explosive,
+              shouldLoop: false,
+              emissionFrequency: 0.05,
+              numberOfParticles: 50,
+              maxBlastForce: 60,
+              minBlastForce: 10,
+              gravity: 0.1,
+              colors: const [
+                Colors.green,
+                Colors.blue,
+                Colors.pink,
+                Colors.orange,
+                Colors.purple,
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   void _stopTimer() {
@@ -219,6 +376,7 @@ class _TimerWidgetState extends State<TimerWidget> {
   void dispose() {
     _timer?.cancel();
     _controller.dispose();
+    _confettiController.dispose();
     super.dispose();
   }
 
