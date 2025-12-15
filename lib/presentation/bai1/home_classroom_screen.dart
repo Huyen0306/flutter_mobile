@@ -47,16 +47,13 @@ class HomeClassroomScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      drawer: const AppDrawer(),
+      drawer: const AppDrawer(activeIndex: 1),
       body: Stack(
         children: [
-          
           Positioned.fill(
             child: ListView.separated(
               padding: EdgeInsets.only(
-                top:
-                    MediaQuery.of(context).padding.top +
-                    80, 
+                top: MediaQuery.of(context).padding.top + 80,
                 left: 10,
                 right: 10,
                 bottom: 10,
@@ -109,7 +106,6 @@ class CourseCard extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       child: Stack(
         children: [
-          
           Positioned.fill(
             child: Image.asset(
               imageUrl,
@@ -119,14 +115,14 @@ class CourseCard extends StatelessWidget {
               },
             ),
           ),
-          
+
           Positioned.fill(
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-                  
+
                   colors: gradientColors
                       .map((c) => c.withOpacity(0.70))
                       .toList(),
@@ -134,7 +130,7 @@ class CourseCard extends StatelessWidget {
               ),
             ),
           ),
-          
+
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(

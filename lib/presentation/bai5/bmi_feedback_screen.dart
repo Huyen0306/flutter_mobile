@@ -19,7 +19,7 @@ class _BmiFeedbackScreenState extends State<BmiFeedbackScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      drawer: const AppDrawer(),
+      drawer: const AppDrawer(activeIndex: 5),
       body: Stack(
         children: [
           Padding(
@@ -29,7 +29,7 @@ class _BmiFeedbackScreenState extends State<BmiFeedbackScreen> {
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                
+
                 Container(
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -114,10 +114,6 @@ class _BmiFeedbackScreenState extends State<BmiFeedbackScreen> {
     );
   }
 }
-
-
-
-
 
 class CustomTextField extends StatelessWidget {
   final String label;
@@ -222,10 +218,6 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
-
-
-
-
 
 class BmiCalculatorWidget extends StatefulWidget {
   const BmiCalculatorWidget({super.key});
@@ -360,10 +352,6 @@ class _BmiCalculatorWidgetState extends State<BmiCalculatorWidget> {
   }
 }
 
-
-
-
-
 class FeedbackWidget extends StatefulWidget {
   const FeedbackWidget({super.key});
 
@@ -432,11 +420,11 @@ class _FeedbackWidgetState extends State<FeedbackWidget> {
               validator: (v) => v!.isEmpty ? 'Vui lòng nhập tên' : null,
             ),
             const SizedBox(height: 20),
-            
+
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.grey[50], 
+                color: Colors.grey[50],
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(

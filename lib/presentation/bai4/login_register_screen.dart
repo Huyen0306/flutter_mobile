@@ -24,7 +24,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      drawer: const AppDrawer(),
+      drawer: const AppDrawer(activeIndex: 4),
       body: Stack(
         children: [
           SingleChildScrollView(

@@ -10,7 +10,7 @@ class WelcomeCharlieScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      drawer: const AppDrawer(),
+      drawer: const AppDrawer(activeIndex: 2),
       body: Stack(
         children: [
           Padding(
@@ -23,7 +23,7 @@ class WelcomeCharlieScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 10),
-                
+
                 const Text(
                   'Welcome,\nCharlie',
                   style: TextStyle(
@@ -36,7 +36,6 @@ class WelcomeCharlieScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
 
-                
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -59,7 +58,6 @@ class WelcomeCharlieScreen extends StatelessWidget {
 
                 const SizedBox(height: 40),
 
-                
                 const Text(
                   'Saved Places',
                   style: TextStyle(
@@ -71,7 +69,6 @@ class WelcomeCharlieScreen extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                
                 Expanded(
                   child: GridView.count(
                     crossAxisCount: 2,

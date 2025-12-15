@@ -20,7 +20,7 @@ class _TimerCounterScreenState extends State<TimerCounterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      drawer: const AppDrawer(),
+      drawer: const AppDrawer(activeIndex: 3),
       body: Stack(
         children: [
           Padding(
@@ -30,7 +30,7 @@ class _TimerCounterScreenState extends State<TimerCounterScreen> {
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                
+
                 Container(
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -163,9 +163,6 @@ class _TimerCounterScreenState extends State<TimerCounterScreen> {
     );
   }
 }
-
-
-
 
 class TimerWidget extends StatefulWidget {
   const TimerWidget({super.key});
@@ -334,9 +331,6 @@ class _TimerWidgetState extends State<TimerWidget> {
   }
 }
 
-
-
-
 class CounterWidget extends StatefulWidget {
   const CounterWidget({super.key});
 
@@ -407,7 +401,7 @@ class _CounterWidgetState extends State<CounterWidget> {
           ],
         ),
         const SizedBox(height: 20),
-        
+
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
@@ -449,9 +443,6 @@ class _CounterWidgetState extends State<CounterWidget> {
     );
   }
 }
-
-
-
 
 class ColorChangerWidget extends StatefulWidget {
   const ColorChangerWidget({super.key});

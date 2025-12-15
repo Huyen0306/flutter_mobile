@@ -7,9 +7,6 @@ import '../widgets/custom_menu_button.dart';
 
 const Color kPrimaryColor = Color(0xFFec003f);
 
-
-
-
 class User {
   final int id;
   final String username;
@@ -44,9 +41,6 @@ class User {
   String get fullName => '$firstName $lastName';
 }
 
-
-
-
 class LoginProfileScreen extends StatefulWidget {
   const LoginProfileScreen({super.key});
 
@@ -57,13 +51,11 @@ class LoginProfileScreen extends StatefulWidget {
 class _LoginProfileScreenState extends State<LoginProfileScreen> {
   final Dio _dio = Dio();
 
-  
   bool _isLoading = false;
   User? _currentUser;
   String? _accessToken;
   String? _refreshToken;
 
-  
   final TextEditingController _usernameController = TextEditingController(
     text: 'emilys',
   );
@@ -71,10 +63,6 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
     text: 'emilyspass',
   );
   bool _obscurePassword = true;
-
-  
-  
-  
 
   Future<void> _login() async {
     setState(() => _isLoading = true);
@@ -158,18 +146,13 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
     );
   }
 
-  
-  
-  
-
   @override
   Widget build(BuildContext context) {
-    
     final isLogged = _currentUser != null && _accessToken != null;
 
     return Scaffold(
       backgroundColor: Colors.white,
-      drawer: const AppDrawer(),
+      drawer: const AppDrawer(activeIndex: 8),
       body: Stack(
         children: [
           Padding(
@@ -184,7 +167,6 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
     );
   }
 
-  
   Widget _buildLoginView() {
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
@@ -211,7 +193,6 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
           ),
           const SizedBox(height: 40),
 
-          
           const Text(
             "Tên đăng nhập",
             style: TextStyle(fontWeight: FontWeight.bold),
@@ -223,7 +204,6 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
           ),
           const SizedBox(height: 20),
 
-          
           const Text("Mật khẩu", style: TextStyle(fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
           TextField(
@@ -249,7 +229,7 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
                 height: 24,
                 width: 24,
                 child: Checkbox(
-                  value: true, 
+                  value: true,
                   activeColor: kPrimaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4),
@@ -278,7 +258,6 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
 
           const SizedBox(height: 30),
 
-          
           SizedBox(
             width: double.infinity,
             height: 56,
@@ -315,7 +294,6 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
 
           const SizedBox(height: 24),
 
-          
           Center(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -361,7 +339,6 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
     );
   }
 
-  
   Widget _buildProfileView() {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
@@ -369,7 +346,7 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 20),
-          
+
           Center(
             child: Column(
               children: [
@@ -403,15 +380,14 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
           ),
           const SizedBox(height: 30),
 
-          
           Row(
             children: [
               Expanded(
                 child: ElevatedButton(
                   onPressed: _logout,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFFF0F3), 
-                    foregroundColor: const Color(0xFFFF3B30), 
+                    backgroundColor: const Color(0xFFFFF0F3),
+                    foregroundColor: const Color(0xFFFF3B30),
                     elevation: 0,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
@@ -444,7 +420,6 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
           ),
           const SizedBox(height: 30),
 
-          
           _buildSingleInfoCard(
             "HỌ VÀ TÊN",
             _currentUser!.fullName,
@@ -524,10 +499,6 @@ class _LoginProfileScreenState extends State<LoginProfileScreen> {
     );
   }
 }
-
-
-
-
 
 InputDecoration _inputDecoration(String hint) {
   return InputDecoration(

@@ -143,21 +143,8 @@ class AppDrawer extends StatelessWidget {
                     },
                   );
                 }),
+                const SizedBox(height: 36),
               ],
-            ),
-          ),
-
-          // Logout Item
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: _buildDrawerItem(
-              icon: Iconsax.logout,
-              title: "Đăng xuất",
-              onTap: () {
-                // Handle logout logic here
-                Navigator.pop(context); // Just close drawer for now
-              },
-              isLogout: true,
             ),
           ),
         ],
@@ -172,39 +159,95 @@ class AppDrawer extends StatelessWidget {
     bool isActive = false,
     bool isLogout = false,
   }) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: Material(
-        color: isActive ? Colors.blue.withOpacity(0.1) : Colors.transparent,
-        borderRadius: BorderRadius.circular(15),
-        child: InkWell(
-          onTap: onTap,
+    if (isLogout) {
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        child: Material(
+          color: Colors.transparent,
           borderRadius: BorderRadius.circular(15),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            child: Row(
-              children: [
-                Icon(
-                  icon,
-                  color: isLogout
-                      ? Colors.red
-                      : (isActive ? Colors.blue : Colors.grey),
-                  size: 24,
-                ),
-                const SizedBox(width: 20),
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: isLogout
-                        ? Colors.red
-                        : (isActive ? Colors.blue : Colors.black87),
-                    fontSize: 16,
-                    fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(15),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              child: Row(
+                children: [
+                  Icon(icon, color: Colors.red, size: 24),
+                  const SizedBox(width: 20),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
+        ),
+      );
+    }
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 5,
+        ), // Added margin to match list spacing
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          color: isActive
+              ? const Color(0xFFec003f).withOpacity(0.05)
+              : Colors.white, // Highlight active item subtly
+          borderRadius: BorderRadius.circular(12),
+          border: Border(
+            left: BorderSide(
+              color: const Color(0xFFec003f).withOpacity(0.5),
+              width: 1.8 * 1.618,
+            ),
+            bottom: BorderSide(
+              color: const Color(0xFFec003f).withOpacity(0.5),
+              width: 1.8 * 1.618,
+            ),
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: const Color(0xFFec003f).withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(icon, color: const Color(0xFFec003f), size: 20),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black87,
+                ),
+              ),
+            ),
+            const SizedBox(width: 14),
+            Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: const Color(0xFFec003f).withOpacity(0.5),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(
+                Iconsax.arrow_right_1,
+                color: Colors.white,
+                size: 16,
+              ),
+            ),
+          ],
         ),
       ),
     );

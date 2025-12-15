@@ -8,9 +8,6 @@ import '../widgets/custom_menu_button.dart';
 
 const Color kPrimaryColor = Color(0xFFec003f);
 
-
-
-
 class Product {
   final int id;
   final String title;
@@ -45,12 +42,8 @@ class Product {
     );
   }
 
-  
   double get originalPrice => price / (1 - (discountPercentage / 100));
 }
-
-
-
 
 class EcommerceScreen extends StatefulWidget {
   const EcommerceScreen({super.key});
@@ -92,12 +85,7 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
         url = 'https://dummyjson.com/products/search?q=$query';
       }
 
-      final response = await _dio.get(
-        url,
-        queryParameters: {
-          'limit': 20, 
-        },
-      );
+      final response = await _dio.get(url, queryParameters: {'limit': 20});
 
       if (response.statusCode == 200) {
         final data = response.data;
@@ -127,8 +115,8 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5FA), 
-      drawer: const AppDrawer(),
+      backgroundColor: const Color(0xFFF5F5FA),
+      drawer: const AppDrawer(activeIndex: 6),
       body: Stack(
         children: [
           Padding(
@@ -137,7 +125,6 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
             ),
             child: Column(
               children: [
-                
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,
@@ -175,7 +162,6 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
                   ),
                 ),
 
-                
                 Expanded(
                   child: _isLoading
                       ? const Center(child: CircularProgressIndicator())
@@ -253,7 +239,6 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
             Expanded(
               child: Stack(
                 children: [
@@ -277,7 +262,7 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
                       ),
                     ),
                   ),
-                  
+
                   if (product.discountPercentage > 0)
                     Positioned(
                       top: 10,
@@ -301,7 +286,7 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
                         ),
                       ),
                     ),
-                  
+
                   Positioned(
                     top: 8,
                     right: 8,
@@ -322,13 +307,11 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
               ),
             ),
 
-            
             Padding(
               padding: const EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  
                   Text(
                     product.title,
                     maxLines: 2,
@@ -342,7 +325,6 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
                   ),
                   const SizedBox(height: 4),
 
-                  
                   Row(
                     children: [
                       Icon(Iconsax.star1, color: Colors.amber[400], size: 14),
@@ -363,7 +345,6 @@ class _EcommerceScreenState extends State<EcommerceScreen> {
                   ),
                   const SizedBox(height: 10),
 
-                  
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
