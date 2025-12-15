@@ -34,7 +34,7 @@ class WelcomeCharlieScreen extends StatelessWidget {
                     letterSpacing: -0.5,
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
 
                 Container(
                   decoration: BoxDecoration(
@@ -56,8 +56,7 @@ class WelcomeCharlieScreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 40),
-
+                const SizedBox(height: 20),
                 const Text(
                   'Saved Places',
                   style: TextStyle(
@@ -66,9 +65,6 @@ class WelcomeCharlieScreen extends StatelessWidget {
                     color: Color(0xFF2D3436),
                   ),
                 ),
-
-                const SizedBox(height: 20),
-
                 Expanded(
                   child: GridView.count(
                     crossAxisCount: 2,
@@ -76,10 +72,22 @@ class WelcomeCharlieScreen extends StatelessWidget {
                     mainAxisSpacing: 16,
                     childAspectRatio: 1.4,
                     children: [
-                      _buildPlaceCard(imagePath: 'assets/images/noel_1.png'),
-                      _buildPlaceCard(imagePath: 'assets/images/noel_2.png'),
-                      _buildPlaceCard(imagePath: 'assets/images/noel_3.png'),
-                      _buildPlaceCard(imagePath: 'assets/images/noel_4.png'),
+                      _buildPlaceCard(
+                        context,
+                        imagePath: 'assets/images/noel_1.png',
+                      ),
+                      _buildPlaceCard(
+                        context,
+                        imagePath: 'assets/images/noel_2.png',
+                      ),
+                      _buildPlaceCard(
+                        context,
+                        imagePath: 'assets/images/noel_3.png',
+                      ),
+                      _buildPlaceCard(
+                        context,
+                        imagePath: 'assets/images/noel_4.png',
+                      ),
                     ],
                   ),
                 ),
@@ -92,11 +100,39 @@ class WelcomeCharlieScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPlaceCard({required String imagePath}) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        image: DecorationImage(image: AssetImage(imagePath), fit: BoxFit.cover),
+  Widget _buildPlaceCard(BuildContext context, {required String imagePath}) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Scaffold(
+              backgroundColor: Colors.black,
+              appBar: AppBar(
+                backgroundColor: Colors.black,
+                iconTheme: const IconThemeData(color: Colors.white),
+              ),
+              body: Center(
+                child: Hero(
+                  tag: imagePath,
+                  child: InteractiveViewer(child: Image.asset(imagePath)),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+      child: Hero(
+        tag: imagePath,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            image: DecorationImage(
+              image: AssetImage(imagePath),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
       ),
     );
   }
