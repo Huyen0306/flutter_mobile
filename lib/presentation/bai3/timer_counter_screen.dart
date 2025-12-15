@@ -638,6 +638,7 @@ class ColorChangerWidget extends StatefulWidget {
 class _ColorChangerWidgetState extends State<ColorChangerWidget> {
   Color _backgroundColor = Colors.pinkAccent;
   String _colorName = 'HỒNG';
+  bool _isDark = false;
 
   final List<Map<String, dynamic>> _colorOptions = [
     {'label': 'Hồng', 'name': 'HỒNG', 'color': Colors.pinkAccent},
@@ -645,12 +646,16 @@ class _ColorChangerWidgetState extends State<ColorChangerWidget> {
     {'label': 'Vàng', 'name': 'VÀNG', 'color': Colors.yellow},
     {'label': 'Xanh lá', 'name': 'XANH LÁ', 'color': Colors.green},
     {'label': 'Xanh dương', 'name': 'XANH DƯƠNG', 'color': Colors.blue},
+    {'label': 'Cam', 'name': 'CAM', 'color': Colors.orangeAccent},
+    {'label': 'Đen', 'name': 'ĐEN', 'color': const Color(0xFF2D3436)},
+    {'label': 'Xanh ngọc', 'name': 'XANH NGỌC', 'color': Colors.teal},
   ];
 
   void _changeColor(Color color, String name) {
     setState(() {
       _backgroundColor = color;
       _colorName = name;
+      _isDark = color.computeLuminance() < 0.5;
     });
   }
 
@@ -658,84 +663,128 @@ class _ColorChangerWidgetState extends State<ColorChangerWidget> {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
-      width: double.infinity,
+      curve: Curves.easeInOut,
       color: _backgroundColor,
-      child: Center(
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(24),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                blurRadius: 20,
-                offset: const Offset(0, 10),
+      child: Stack(
+        children: [
+          // Background pattern or decoration
+          Positioned(
+            top: -50,
+            right: -50,
+            child: Container(
+              width: 200,
+              height: 200,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.1),
+                shape: BoxShape.circle,
               ),
-            ],
+            ),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'Màu hiện tại',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                _colorName,
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: _backgroundColor,
-                ),
-              ),
-              const SizedBox(height: 32),
-              const Text(
-                "Chọn màu yêu thích",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 24),
-              Wrap(
-                spacing: 16,
-                runSpacing: 16,
-                alignment: WrapAlignment.center,
-                children: _colorOptions.map((option) {
-                  final color = option['color'] as Color;
-                  final name = option['name'] as String;
-                  final isSelected = _colorName == name;
 
-                  return GestureDetector(
-                    onTap: () => _changeColor(color, name),
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: color,
-                        shape: BoxShape.circle,
-                        border: isSelected
-                            ? Border.all(color: Colors.black, width: 3)
-                            : Border.all(color: Colors.black12, width: 1),
-                      ),
-                      child: isSelected
-                          ? const Icon(Icons.check, color: Colors.white)
-                          : null,
-                    ),
-                  );
-                }).toList(),
-              ),
-            ],
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  _colorName,
+                  style: TextStyle(
+                    fontSize: 48,
+                    fontWeight: FontWeight.w900,
+                    color: _isDark ? Colors.white : Colors.black87,
+                    letterSpacing: 2,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "Màu sắc hiện tại",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: (_isDark ? Colors.white : Colors.black87)
+                        .withOpacity(0.6),
+                    letterSpacing: 1,
+                  ),
+                ),
+                const SizedBox(height: 60), // Space for control panel
+              ],
+            ),
           ),
-        ),
+
+          // Control Panel at Bottom
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 30,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Đổi màu hình nền",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF2D3436),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    height: 60,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _colorOptions.length,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(width: 16),
+                      itemBuilder: (context, index) {
+                        final option = _colorOptions[index];
+                        final color = option['color'] as Color;
+                        final name = option['name'] as String;
+                        final isSelected = _colorName == name;
+
+                        return GestureDetector(
+                          onTap: () => _changeColor(color, name),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            width: isSelected ? 60 : 50,
+                            height: isSelected ? 60 : 50,
+                            decoration: BoxDecoration(
+                              color: color,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: isSelected
+                                    ? Colors.black
+                                    : Colors.transparent,
+                                width: isSelected ? 3 : 0,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: color.withOpacity(0.4),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
